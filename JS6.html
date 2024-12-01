@@ -74,15 +74,15 @@
     let interval;
 
     function startCounter() {
-        // Controlla se l'intervallo è già attivo
+        
         if (interval) {
-            clearInterval(interval); // Ferma l'intervallo precedente, se esiste
+            clearInterval(interval); 
         }
 
         interval = setInterval(() => {
-            counter++; // Incrementa il contatore
-            document.getElementById("out1").innerText = counter; // Mostra il nuovo numero
-        }, 1000); // Aggiorna ogni secondo (1000 ms)
+            counter++; 
+            document.getElementById("out1").innerText = counter;
+        }, 1000); 
     }
 </script>
 
