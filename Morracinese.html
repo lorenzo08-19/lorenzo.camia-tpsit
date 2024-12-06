@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gioco Morra Cinese</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: #333;
+        }
+        .game-container {
+            margin-top: 50px;
+        }
+        .scelta-btns button {
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+        }
+        .scelta-btns button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+        .reset-btn {
+            margin-top: 30px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .reset-btn:hover {
+            background-color: #e41f28;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Gioco della Morra Cinese</h1>
+
+    <div class="game-container">
+        <div class="scelta-btns">
+            <button onclick="gioca('Sasso')">Sasso</button>
+            <button onclick="gioca('Carta')">Carta</button>
+            <button onclick="gioca('Forbici')">Forbici</button>
+        </div>
+
+        <div id="result" class="result"></div>
+
+        <button class="reset-btn" onclick="resetta()">Riprendi</button>
+    </div>
+
+    <script>
+        function sceltaComputer() {
+            const opzioni = ['Sasso', 'Carta', 'Forbici'];
+            const randomIndex = Math.floor(Math.random() * 3);
+            return opzioni[randomIndex];
+        }
+
+        function determinareVincitore(player, computer) {
+            if (player === computer) {
+                return "Pareggio!";
+            } else if (
+                (player === 'Sasso' && computer === 'Forbici') || 
+                (player === 'Forbici' && computer === 'Carta') || 
+                (player === 'Carta' && computer === 'Sasso')
+            ) {
+                return "Hai vinto!";
+            } else {
+                return "Hai perso!";
+            }
+        }
+
+        function gioca(playerChoice) {
+            const computerChoice = sceltaComputer();
+            const risultato = determinareVincitore(playerChoice, computerChoice);
+            document.getElementById('result').innerHTML = `
+                Hai scelto: <strong>${playerChoice}</strong><br>
+                Il computer ha scelto: <strong>${computerChoice}</strong><br>
+                <strong>${risultato}</strong>
+            `;
+        }
+
+        function resetta() {
+            document.getElementById('result').innerHTML = '';
+        }
+    </script>
+
+</body>
+</html>
