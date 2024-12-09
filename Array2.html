@@ -1,3 +1,80 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Numeri Primi con Push e Pop</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    button {
+      margin: 10px;
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #array-container {
+      margin-top: 20px;
+      font-size: 18px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Numeri Primi da 1 a 100</h1>
+  
+  <button onclick="addPrime()">Aggiungi un numero primo</button>
+  <button onclick="removePrime()">Rimuovi l'ultimo numero primo</button>
+  
+  <div id="array-container">
+    <strong>Array dei numeri primi:</strong>
+    <div id="prime-array">[]</div>
+  </div>
+
+  <script>
+  
+    function isPrime(num) {
+      if (num <= 1) return false;
+      for (let i = 2; i <= Math.sqrt(num); i++) {
+        if (num % i === 0) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    
+    let primes = [];
+
+    
+    function addPrime() {
+      for (let i = 2; i <= 100; i++) {
+        if (isPrime(i) && !primes.includes(i)) {
+          primes.push(i);  
+          updateDisplay();
+          break;
+        }
+      }
+    }
+
+    
+    function removePrime() {
+      primes.pop();  
+      updateDisplay();
+    }
+
+    
+    function updateDisplay() {
+      document.getElementById('prime-array').textContent = JSON.stringify(primes);
+    }
+  </script>
+
+</body>
+</html>
 
 
 
