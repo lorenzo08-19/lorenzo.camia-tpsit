@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>arrey3</title>
 </head>
 <style>
     #red{
@@ -14,47 +14,50 @@
     <p id="out-1"></p>
     <script>
         function stampaArray(arr){
-            for(let i = 0;i<arr.length;i++){
-                if(isMultipleof(arr[i],7)){
-                    document.write(`<p id="red"> ${arr[i]} </p>`)
-                }else{
-                    document.write(`<p> ${arr[i]} </p>`)
+            for(let i = 0; i < arr.length; i++){
+                // Coloriamo i numeri primi di rosso
+                if(isPrime(arr[i])){
+                    document.write(`<p id="red">${arr[i]}</p>`);
+                } else {
+                    document.write(`<p>${arr[i]}</p>`);
                 }
             }
         }
 
-        function isMultipleof(n,m){
-            // n[int] : controllo che sia multiplo di n
+        function isMultipleof(n, m){
+            // n[int] : 
             // m
             if(n % m === 0){
-                return true
+                return true;
             }
-            return false
-        }
-        console.log(isMultipleof(6,7))
-        console.log(isMultipleof(14,7))
-        console.log(isMultipleof(25,5))
-       
-       
-        let numeri = []
-
-        for(let i = 0;i <1000;i++){
-            numeri[i] = i+1
-            console.log(numeri)
+            return false;
         }
 
+        
+        function isPrime(num){
+            if(num <= 1) return false; 
+            for(let i = 2; i <= Math.sqrt(num); i++){
+                if(num % i === 0) return false; 
+            }
+            return true; // Il numero è primo
+        }
+
+        console.log(isMultipleof(6, 7)); 
+        console.log(isMultipleof(14, 7));
+        console.log(isMultipleof(25, 5)); 
+       
+        let numeri = [];
+
+        
+        for(let i = 0; i < 1000; i++){
+            numeri[i] = i + 1;
+        }
+
+        
         stampaArray(numeri);
     </script>
 </body>
 </html>
-funzione isPrime():
-function isPrime(num) {
-  if (num <= 1) return true;
-  for (let i = 2; i <= Math.sqrt(num); i++) {
-    if (num % i === 0) return false;
-  }
-  return true;
-}
 
 
 
