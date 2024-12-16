@@ -1,48 +1,58 @@
 import random
 import time
 
+def is_prime(num):
 
-def is_prime(n):
-    if n <= 1:
+    if num < 2:
         return False
-    for i in range(2, n):
-        if n % i == 0:
+    for i in range(2, int(num ** 0.5) + 1):
+        if num % i == 0:
             return False
     return True
 
+def generare_numero():
+    while True:
+        numero_casuale = random.randint(1, 1000)
+        print(f"\nNumero casuale: {numero_casuale}")
+        
 
-while True:
-    n = random.randint(1, 1000) # Numero casuale tra 1 e 1000
-    print(f"Numero: {n}")
-    
-    
-    if n % 2 == 0:
-        print(f"{n} è pari")
-    else:
-        print(f"{n} è dispari")
-    
-    
-    if is_prime(n):
-        print(f"{n} è un numero primo")
-    else:
-        print(f"{n} non è un numero primo")
-    
-    
-    print(f"Doppio di {n}: {n * 2}")
-    print(f"Metà intera di {n}: {n // 2}")
-    
-     (1000 - n)
-    print(f"Complemento di {n} (1000 - n): {1000 - n}")
-    
-    
-    print(f"Somma con il precedente e il successivo: {n - 1 + n + n + 1}")
-    
-    
-    print(f"{n} moltiplicato per 3.14: {n * 3.14}")
-    
-    
-    time.sleep(5)
+        if numero_casuale % 2 == 0:
+            print("Il numero è pari.")
+        else:
+            print("Il numero è dispari.")
 
+        if is_prime(numero_casuale):
+            print("Il numero è primo.")
+        else:
+            print("Il numero non è primo.")
+        
+
+        doppio = numero_casuale * 2
+        print(f"Il doppio del numero è: {doppio}")
+        
+
+        meta = numero_casuale // 2
+        print(f"La metà intera del numero è: {meta}")
+        
+   
+        complemento = 1000 - numero_casuale
+        print(f"Il complemento del numero è: {complemento}")
+        
+       
+        precedente = numero_casuale - 1
+        successivo = numero_casuale + 1
+        somma = numero_casuale + precedente + successivo
+        print(f"La somma del numero con il precedente e il successivo è: {somma}")
+        
+     
+        moltiplicazione = numero_casuale * 3.14
+        print(f"Il numero moltiplicato per 3.14 è: {moltiplicazione}")
+        
+
+        time.sleep(5)
+
+
+generare_numero()
 
 
 
