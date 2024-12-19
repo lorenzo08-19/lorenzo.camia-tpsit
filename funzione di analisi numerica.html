@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proprietà dei Numeri</title>
+    <style>
+        .prime {
+            color: red;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Proprietà dei Numeri da 1 a 10000</h1>
+    <table id="properties-table">
+        <thead>
+            <tr>
+                <th>Numero</th>
+                <th>Pari/Dispari</th>
+                <th>Primo</th>
+                <th>Doppio</th>
+                <th>Meta Intera</th>
+                <th>Complemento</th>
+                <th>Somma</th>
+                <th>Moltiplicazione con Pi</th>
+                <th>Moltiplicazione con e</th>
+            </tr>
+        </thead>
+        <tbody>
+          
+        </tbody>
+    </table>
+
+    <script>
+        
+        function isPrime(n) {
+            if (n <= 1) return false;
+            for (let i = 2; i <= Math.sqrt(n); i++) {
+                if (n % i === 0) return false;
+            }
+            return true;
+        }
+
+        
+        function addProperties(n) {
+            const table = document.getElementById("properties-table").getElementsByTagName('tbody')[0];
+
+            // Determina se il numero è primo
+            const primeStatus = isPrime(n) ? "Sì" : "No";
+            const pariDispari = n % 2 === 0 ? "Pari" : "Dispari";
+            const doppio = 2 * n;
+            const meta = Math.floor(n / 2);
+            const complemento = 1000 - n;
+            const somma = n + (n - 1) + (n + 1);
+            const moltiplicazionePi = (n * 3.14).toFixed(2);
+            const moltiplicazioneE = (n * 2.71).toFixed(2);
+
+            
+            const row = table.insertRow();
+            row.innerHTML = `
+                <td>{n}</td>
+                <td>{pariDispari}</td>
+                <td>{primeStatus}</td>
+                <td>{doppio}</td>
+                <td>{meta}</td>
+                <td>{complemento}</td>
+                <td>{somma}</td>
+                <td>{moltiplicazionePi}</td>
+                <td>{moltiplicazioneE}</td>
+            `;
+
+            
+            if (isPrime(n)) {
+                row.classList.add("prime");
+            }
+        }
+
+        
+        for (let i = 1; i <= 10000; i++) {
+            addProperties(i);
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
