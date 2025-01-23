@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione Bootstrap</title>
+    <!-- CSS di Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Personalizzazioni CSS per migliorare l'aspetto delle card */
+        .card {
+            border: none; /* Rimuove il bordo delle card */
+            transition: transform 0.3s ease-in-out; /* Aggiunge un'animazione quando si passa sopra */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Aggiunge un'ombra alle card */
+        }
+
+        .card:hover {
+            transform: scale(1.05); /* Ingrossa la card quando ci si passa sopra */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Ombra più grande al passaggio del mouse */
+        }
+
+        .card-body {
+            background-color: #f8f9fa; /* Colore di sfondo più chiaro per la card */
+            border-radius: 10px; /* Rende gli angoli delle card più arrotondati */
+        }
+
+        .card-title {
+            color: #343a40; /* Colore del titolo della card */
+            font-size: 1.25rem; /* Imposta una dimensione del font più grande per il titolo */
+            font-weight: bold; /* Rende il titolo in grassetto */
+        }
+
+        .card-text {
+            color: #6c757d; /* Colore più chiaro per il testo della card */
+        }
+
+        .btn-primary {
+            background-color: #007bff; /* Colore personalizzato per il bottone */
+            border-color: #007bff; /* Colore del bordo del bottone */
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3; /* Colore più scuro quando si passa sopra il bottone */
+            border-color: #0056b3;
+        }
+
+        /* Aggiunge un po' di padding e margini alla pagina */
+        .container {
+            margin-top: 50px;
+        }
+        
+        /* Aggiunge un po' di spazio tra le card su schermi più piccoli */
+        @media (max-width: 576px) {
+            .col-12 {
+                margin-bottom: 20px; /* Spazio tra le card */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Brand</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <!-- Card 1 -->
+            <div class="col-12 col-md-4 mb-3">
+                <div class="card">
+                    <img src="https://assets.xboxservices.com/assets/f9/37/f9371673-913b-4fa6-b476-2d310434c273.jpg?n=Minecraft_Content-Placement-0_Realms-Better-Than-Ever_776x437.jpg" class="card-img-top" alt="Minecraft">
+                    <div class="card-body">
+                        <h5 class="card-title">Minecraft</h5>
+                        <p class="card-text">Testo della card.</p>
+                        <a href="#" class="btn btn-primary">Vai</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card 2 -->
+            <div class="col-12 col-md-4 mb-3">
+                <div class="card">
+                    <img src="https://backbone.com/_next/image/?url=https%3A%2F%2Ffiles.backbon3.com%2Fcdn-cgi%2Fimage%2Fwidth%3D648%2Cheight%3D364%2Cfit%3Dscale-down%2Fcontent%2F2023%2FFortnite%2520Tile%2520Season%2520OG.jpeg&w=640&q=75&dpl=dpl_J3EZGKfQkBeBcDkPtYnBXdK4bPsw" class="card-img-top" alt="Fortnite">
+                    <div class="card-body">
+                        <h5 class="card-title">Fortnite</h5>
+                        <p class="card-text">Testo della card.</p>
+                        <a href="#" class="btn btn-primary">Vai</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card 3 -->
+            <div class="col-12 col-md-4 mb-3">
+                <div class="card">
+                    <img src="https://i.ytimg.com/vi_webp/PnCX8npep7k/maxresdefault.webp" class="card-img-top" alt="Red Dead Redemption">
+                    <div class="card-body">
+                        <h5 class="card-title">Red Dead Redemption</h5>
+                        <p class="card-text">Testo della card.</p>
+                        <a href="#" class="btn btn-primary">Vai</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
