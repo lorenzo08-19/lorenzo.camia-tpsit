@@ -1,108 +1,134 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Esempio Bootstrap</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+<!DOCTYPE html>
+<html lang="it">
 
-  </head>
-  
-  <body>
-  
-<nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top" style="background-color:rgb(200,200,200);">
-  
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Barra</a>
-    
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sicurezza Online</title>
+    <!-- CDN di Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
 
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Sicurezza Online</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Articoli</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contatti</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-        <li class="nav-item">
-          <a class="nav-link" href="#">Collegamento</a>
-        </li>
-        
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Tendina
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Prima opzione</a></li>
-            <li><a class="dropdown-item" href="#">Seconda opzione</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Terza opzione</a></li>
-          </ul>
-        </li>
-        
-        <li class="nav-item">
-          <a class="nav-link disabled">Disabilitato</a>
-        </li>
-      </ul>
-      
+    <!-- Hero Section -->
+    <header class="bg-primary text-white text-center py-5">
+        <h1>Sicurezza Online: Proteggi la tua privacy e sicurezza in Rete</h1>
+        <p>Scopri come mantenere i tuoi dati al sicuro e difenderti dalle minacce online.</p>
+    </header>
+
+    <!-- Sezione principale -->
+    <div class="container my-5">
+        <div class="row">
+            <!-- Colonna di testo -->
+            <div class="col-md-8">
+                <h2>Cos'è la Sicurezza Online?</h2>
+                <p>La sicurezza online si riferisce alla protezione delle informazioni personali e professionali su internet.
+                    Con l'aumento delle minacce cyber, come virus, hacking e phishing, è essenziale conoscere le best practices
+                    per proteggersi.</p>
+
+                <h3>Minacce principali</h3>
+                <ul>
+                    <li><strong>Phishing:</strong> Tentativi fraudolenti di acquisire informazioni sensibili.</li>
+                    <li><strong>Malware:</strong> Software dannoso che può infettare il tuo dispositivo.</li>
+                    <li><strong>Hacking:</strong> Accesso non autorizzato a sistemi o informazioni.</li>
+                    <li><strong>Ransomware:</strong> Un tipo di malware che blocca i tuoi file fino al pagamento di un riscatto.</li>
+                </ul>
+
+                <h3>Come proteggerti?</h3>
+                <p>Per proteggerti dalle minacce online, segui queste semplici regole:</p>
+                <ul>
+                    <li>Usa password complesse e uniche per ogni account.</li>
+                    <li>Abilita l'autenticazione a due fattori.</li>
+                    <li>Non cliccare su link sospetti nelle email.</li>
+                    <li>Utilizza un software antivirus aggiornato.</li>
+                </ul>
+
+                <h3>Strumenti utili</h3>
+                <p>Esistono vari strumenti che possono aiutarti a proteggere la tua sicurezza online:</p>
+                <ol>
+                    <li>Gestori di password come <strong>LastPass</strong> o <strong>1Password</strong>.</li>
+                    <li>Software antivirus come <strong>Bitdefender</strong> o <strong>McAfee</strong>.</li>
+                    <li>VPN per navigare in modo sicuro, come <strong>NordVPN</strong> o <strong>ExpressVPN</strong>.</li>
+                </ol>
+            </div>
+
+            <!-- Colonna con immagini -->
+            <div class="col-md-4">
+                <img src="https://via.placeholder.com/350x250?text=Sicurezza+Online" class="img-fluid mb-4"
+                    alt="Sicurezza Online">
+                <h4>Impara a proteggerti</h4>
+                <p>Seguendo le giuste pratiche e utilizzando strumenti adeguati, puoi proteggere i tuoi dati e rimanere sicuro online.</p>
+            </div>
+        </div>
+
+        <!-- Sezione Card per approfondimenti -->
+        <div class="row mt-5">
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="https://via.placeholder.com/300x200?text=Phishing" class="card-img-top" alt="Phishing">
+                    <div class="card-body">
+                        <h5 class="card-title">Phishing: Riconoscilo subito!</h5>
+                        <p class="card-text">Impara a riconoscere i tentativi di phishing e proteggi le tue informazioni personali.</p>
+                        <a href="#" class="btn btn-primary">Leggi di più</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="https://via.placeholder.com/300x200?text=Malware" class="card-img-top" alt="Malware">
+                    <div class="card-body">
+                        <h5 class="card-title">Malware: Come difendersi</h5>
+                        <p class="card-text">Scopri come evitare che il malware infetti il tuo dispositivo e danneggi i tuoi dati.</p>
+                        <a href="#" class="btn btn-primary">Leggi di più</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="https://via.placeholder.com/300x200?text=Hacking" class="card-img-top" alt="Hacking">
+                    <div class="card-body">
+                        <h5 class="card-title">Hacking: Proteggi i tuoi account</h5>
+                        <p class="card-text">Impara a proteggere i tuoi account online da attacchi hacker con misure avanzate.</p>
+                        <a href="#" class="btn btn-primary">Leggi di più</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</nav>
 
-   <div class="container">
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-4">
+        <p>&copy; 2025 Sicurezza Online - Tutti i diritti riservati</p>
+    </footer>
 
-    <p class="lead">
-    Testo scritto a casaccio purchè sufficientemente lungo per occupare abbastanza spazio.<br>
-    Lo metto anche su due righe. 
-    </p>
-    <p class="lead">
-    Testo scritto a casaccio purchè sufficientemente lungo per occupare abbastanza spazio.<br>
-    Lo metto anche su due righe. 
-    </p>
-    <p class="lead">
-    Testo scritto a casaccio purchè sufficientemente lungo per occupare abbastanza spazio.<br>
-    Lo metto anche su due righe. 
-    </p>
-    <p class="lead">
-    Testo scritto a casaccio purchè sufficientemente lungo per occupare abbastanza spazio.<br>
-    Lo metto anche su due righe. 
-    </p>
-    <p class="lead">
-    Testo scritto a casaccio purchè sufficientemente lungo per occupare abbastanza spazio.<br>
-    Lo metto anche su due righe. 
-    </p>
-    <p class="lead">
-    Testo scritto a casaccio purchè sufficientemente lungo per occupare abbastanza spazio.<br>
-    Lo metto anche su due righe. 
-    </p>
-    <p class="lead">
-    Testo scritto a casaccio purchè sufficientemente lungo per occupare abbastanza spazio.<br>
-    Lo metto anche su due righe. 
-    </p>
-    <p class="lead">
-    Testo scritto a casaccio purchè sufficientemente lungo per occupare abbastanza spazio.<br>
-    Lo metto anche su due righe. 
-    </p>
-    <p class="lead">
-    Testo scritto a casaccio purchè sufficientemente lungo per occupare abbastanza spazio.<br>
-    Lo metto anche su due righe. 
-    </p>
-    <p class="lead">
-    Testo scritto a casaccio purchè sufficientemente lungo per occupare abbastanza spazio.<br>
-    Lo metto anche su due righe. 
-    </p>
-    <p class="lead">
-    Testo scritto a casaccio purchè sufficientemente lungo per occupare abbastanza spazio.<br>
-    Lo metto anche su due righe. 
-    </p>
+    <!-- CDN di Bootstrap JS e Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
 
-   </div>
-
-    
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script> 
-    <script src="js/bootstrap.min.js" ></script>
-  </body>
 </html>
+
