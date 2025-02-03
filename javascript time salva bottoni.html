@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bottoni con Data e Ora</title>
+    <style>
+        button {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        #timeData {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Premi uno dei bottoni</h1>
+    <!-- Creazione dei 4 bottoni -->
+    <button id="btn1">Bottone 1</button>
+    <button id="btn2">Bottone 2</button>
+    <button id="btn3">Bottone 3</button>
+    <button id="btn4">Bottone 4</button>
+
+    
+    <div id="timeData"></div>
+
+    <script>
+        
+        let clickTimes = [];
+        let firstClickTime = null;
+
+        
+        function printDateTime() {
+            const now = new Date();
+            const dateTime = now.toLocaleString();
+            document.getElementById('timeData').innerHTML = `Data e Ora: ${dateTime}`;
+            
+            
+            const elapsedTime = firstClickTime ? (now - firstClickTime) / 1000 : 0;
+            clickTimes.push(elapsedTime.toFixed(3));  
+
+            
+            if (!firstClickTime) {
+                firstClickTime = now;
+            }
+
+            console.log("Tempi tra i click:", clickTimes);
+        }
+
+        
+        document.getElementById("btn1").addEventListener("click", printDateTime);
+        document.getElementById("btn2").addEventListener("click", printDateTime);
+        document.getElementById("btn3").addEventListener("click", printDateTime);
+        document.getElementById("btn4").addEventListener("click", printDateTime);
+    </script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
