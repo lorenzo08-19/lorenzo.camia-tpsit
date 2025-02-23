@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Griglia 3x3 con Azioni JavaScript</title>
+    <style>
+        
+        .container {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 10px;
+            margin-top: 50px;
+            justify-content: center;
+        }
+
+        .square {
+            width: 100px;
+            height: 100px;
+            background-color: lightgray;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid #000;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .moved {
+            position: relative;
+            left: 150px;
+            top: 50px;
+        }
+
+        .transformed {
+            transform: rotate(45deg);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Griglia di 9 quadrati -->
+        <div class="square" onclick="showAlert()">Alert</div>
+        <div class="square" onclick="changeColor(this)">Colore</div>
+        <div class="square" onclick="moveSquare(this)">Sposta</div>
+        <div class="square" onclick="showText(this)">Testo</div>
+        <div class="square" onclick="applyTransform(this)">Trasforma</div>
+        <div class="square" onclick="changeBackground(this)">Sfondo</div>
+        <div class="square" onclick="resetAll()">Reset</div>
+        <div class="square" onclick="resetAll()">Reset</div>
+        <div class="square" onclick="resetAll()">Reset</div>
+    </div>
+
+    <script>
+        
+        function showAlert() {
+            alert("Hai cliccato su Alert!");
+        }
+
+        
+        function changeColor(square) {
+            square.style.backgroundColor = "lightblue";
+        }
+
+        
+        function moveSquare(square) {
+            square.classList.add('moved');
+        }
+
+      
+        function showText(square) {
+            square.textContent = "Ciao!";
+        }
+
+        
+        function applyTransform(square) {
+            square.classList.add('transformed');
+        }
+
+        
+        function changeBackground(square) {
+            square.style.backgroundColor = "orange";
+        }
+
+        
+        function resetAll() {
+            const squares = document.querySelectorAll('.square');
+            squares.forEach(square => {
+                square.style.backgroundColor = 'lightgray';
+                square.classList.remove('moved', 'transformed');
+                square.textContent = '';
+            });
+        }
+    </script>
+
+</body>
+</html>
