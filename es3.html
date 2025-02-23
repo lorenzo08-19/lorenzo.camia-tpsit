@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Griglia con Cambio Colore</title>
+    <style>
+        
+        .container {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 10px;
+            margin-top: 50px;
+            justify-content: center;
+        }
+
+        .square {
+            width: 100px;
+            height: 100px;
+            background-color: lightgray;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid #000;
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Griglia 3x3 di quadrati -->
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+    </div>
+
+    <script>
+        
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        
+        function changeColor() {
+            const squares = document.querySelectorAll('.square');
+            squares.forEach(square => {
+                square.style.backgroundColor = getRandomColor();
+            });
+        }
+
+        
+        setInterval(changeColor, 1000);
+    </script>
+
+</body>
+</html>
