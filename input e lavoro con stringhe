@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestione Stringhe</title>
+    <script>
+        // Funzione per calcolare la lunghezza della stringa
+        function calcolaLunghezza() {
+            const inputA = document.getElementById("inputA").value;
+            const inputB = document.getElementById("inputB").value;
+            
+            document.getElementById("lunghezzaA").innerText = "Lunghezza Stringa A: " + inputA.length;
+            document.getElementById("lunghezzaB").innerText = "Lunghezza Stringa B: " + inputB.length;
+        }
+
+        // Funzione per invertire la stringa
+        function stringaInvertita() {
+            const inputA = document.getElementById("inputA").value;
+            const inputB = document.getElementById("inputB").value;
+
+            const invertitaA = inputA.split("").reverse().join("");
+            const invertitaB = inputB.split("").reverse().join("");
+
+            document.getElementById("invertitaA").innerText = "Stringa A Invertita: " + invertitaA;
+            document.getElementById("invertitaB").innerText = "Stringa B Invertita: " + invertitaB;
+        }
+
+        // Funzione per unire le due stringhe
+        function unisciStringhe() {
+            const inputA = document.getElementById("inputA").value;
+            const inputB = document.getElementById("inputB").value;
+
+            const unione = inputA + " " + inputB;
+            document.getElementById("unione").innerText = "Stringhe Unite: " + unione;
+        }
+
+        // Funzione per sommare le lunghezze delle due stringhe e verificare la lunghezza di B
+        function sommaLunghezze() {
+            const inputA = document.getElementById("inputA").value;
+            const inputB = document.getElementById("inputB").value;
+
+            const somma = inputA.length + inputB.length;
+            document.getElementById("sommaLunghezze").innerText = "Somma Lunghezze: " + somma;
+
+            if (inputB.length > 20) {
+                document.getElementById("errore").innerText = "B troppo lunga!";
+            } else {
+                document.getElementById("errore").innerText = "";
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Gestione delle Stringhe</h1>
+
+    <form action="#" onsubmit="event.preventDefault();">
+        <label for="inputA">Stringa A:</label>
+        <input type="text" id="inputA" oninput="calcolaLunghezza(); stringaInvertita(); unisciStringhe(); sommaLunghezze();" /><br><br>
+
+        <label for="inputB">Stringa B:</label>
+        <input type="text" id="inputB" oninput="calcolaLunghezza(); stringaInvertita(); unisciStringhe(); sommaLunghezze();" /><br><br>
+    </form>
+
+    <div id="lunghezzaA"></div>
+    <div id="lunghezzaB"></div><br>
+
+    <div id="invertitaA"></div>
+    <div id="invertitaB"></div><br>
+
+    <div id="unione"></div><br>
+
+    <div id="sommaLunghezze"></div><br>
+    <div id="errore" style="color: red;"></div><br>
+
+</body>
+</html>
