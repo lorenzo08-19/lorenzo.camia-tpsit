@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attivazione funzione su array di input</title>
+</head>
+
+
+
+<body>
+  <h1>Inserisci 4 Numeri</h1>    
+
+  <form action="" id="NumeriForm"   >
+
+    <input type="number" id="num1" required placeholder="Numero 1" >
+    <input type="number" id="num2" required placeholder="Numero 2" >
+    <input type="number" id="num3" required placeholder="Numero 3" >
+    <input type="number" id="num4" required placeholder="Numero 4" >
+<button type="submit">Invia i dati</button>
+    </form>
+
+    <p id ="out_input">   </p>
+    <p id ="out">   </p>
+    <script>
+        document.getElementById("NumeriForm").addEventListener("submit",function(event)
+        {
+            event.preventDefault(); //evita il ricaricamento della pagina
+
+            let num1=parseFloat(document.getElementById("num1").value);
+            let num2=parseFloat(document.getElementById("num2").value);
+            let num3=parseFloat(document.getElementById("num3").value);
+            let num4=parseFloat(document.getElementById("num4").value);
+
+            const inputArray=[num1,num2,num3,num4];
+            console.log("array di input",inputArray)
+            const arrOut1=IA_base_F1(inputArray)
+
+            document.getElementById("out_input").innerText="Input"+ inputArray;
+            document.getElementById("out").innerText="Risultato funzione"+ arrOut1;
+        });
+
+
+
+function IA_base_F1(arr1){
+    const outArray=[-1,0];
+
+    //metto l'intelligenza della funzione di uscita in base alle
+    // entrate
+    return outArray;
+
+}
+
+
+
+    </script>
+
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
