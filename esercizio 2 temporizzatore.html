@@ -9,7 +9,7 @@
       width: 400px;
       height: 400px;
       border: 2px solid #000;
-      margin-bottom: 50px;
+      margin: 20px;
     }
 
     #quadrato {
@@ -31,91 +31,56 @@
 
 <script>
   const quadrato = document.getElementById('quadrato');
-  let x = 0, y = 0;
+  let x = 0;
+  let y = 0;
   let direzione = 'destra';
+  const passo = 2;
 
-  setInterval(() => {
-    const passo = 2;
+  const maxX = 400 - 50; 
+  const maxY = 400 - 50;
+
+  function muovi() {
     switch (direzione) {
       case 'destra':
-        if (x < 350) x += passo;
-        else direzione = 'giu';
+        x += passo;
+        if (x >= maxX) {
+          x = maxX;
+          direzione = 'giu';
+        }
         break;
       case 'giu':
-        if (y < 350) y += passo;
-        else direzione = 'sinistra';
+        y += passo;
+        if (y >= maxY) {
+          y = maxY;
+          direzione = 'sinistra';
+        }
         break;
       case 'sinistra':
-        if (x > 0) x -= passo;
-        else direzione = 'su';
+        x -= passo;
+        if (x <= 0) {
+          x = 0;
+          direzione = 'su';
+        }
         break;
       case 'su':
-        if (y > 0) y -= passo;
-        else direzione = 'destra';
+        y -= passo;
+        if (y <= 0) {
+          y = 0;
+          direzione = 'destra';
+        }
         break;
     }
+
     quadrato.style.left = x + 'px';
     quadrato.style.top = y + 'px';
-  
-</script>
+  }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Quadrati Scorrevoli</title>
-  <style>
-    .fila {
-      display: flex;
-      gap: 10px;
-    }
-
-    .quadrato {
-      width: 50px;
-      height: 50px;
-      background-color: yellow;
-      transition: background-color 0.3s;
-    }
-
-    .rosso {
-      background-color: red !important;
-    }
-  </style>
-</head>
-<body>
-
-<h2>2) Quadrato rosso in scorrimento</h2>
-<div class="fila" id="fila">
-  <div class="quadrato rosso"></div>
-  <div class="quadrato"></div>
-  <div class="quadrato"></div>
-  <div class="quadrato"></div>
-  <div class="quadrato"></div>
-  <div class="quadrato"></div>
-  <div class="quadrato"></div>
-  <div class="quadrato"></div>
-</div>
-
-<script>
-  const quadrati = document.querySelectorAll('.quadrato');
-  let index = 0;
-
-  setInterval(() => {
-    if (index < quadrati.length - 1) {
-      quadrati[index].classList.remove('rosso');
-      quadrati[index + 1].classList.add('rosso');
-      index++;
-    } else {
-      
-      quadrati[index].classList.remove('rosso');
-      index = 0;
-      quadrati[index].classList.add('rosso');
-    }
-  }, 600); 
+  setInterval(muovi, 20); 
 </script>
 
 </body>
 </html>
+
 
 
 
