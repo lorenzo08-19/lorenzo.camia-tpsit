@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Movimento Orario Quadrato</title>
+  <style>
+    #contenitore {
+      position: relative;
+      width: 400px;
+      height: 400px;
+      border: 2px solid #000;
+      margin-bottom: 50px;
+    }
+
+    #quadrato {
+      width: 50px;
+      height: 50px;
+      background-color: red;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  </style>
+</head>
+<body>
+
+<h2>1) Quadrato in movimento orario</h2>
+<div id="contenitore">
+  <div id="quadrato"></div>
+</div>
+
+<script>
+  const quadrato = document.getElementById('quadrato');
+  let x = 0, y = 0;
+  let direzione = 'destra';
+
+  setInterval(() => {
+    const passo = 2;
+    switch (direzione) {
+      case 'destra':
+        if (x < 350) x += passo;
+        else direzione = 'giu';
+        break;
+      case 'giu':
+        if (y < 350) y += passo;
+        else direzione = 'sinistra';
+        break;
+      case 'sinistra':
+        if (x > 0) x -= passo;
+        else direzione = 'su';
+        break;
+      case 'su':
+        if (y > 0) y -= passo;
+        else direzione = 'destra';
+        break;
+    }
+    quadrato.style.left = x + 'px';
+    quadrato.style.top = y + 'px';
+  
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
