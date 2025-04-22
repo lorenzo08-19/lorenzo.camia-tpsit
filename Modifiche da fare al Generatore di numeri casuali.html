@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Numeri Casuali</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #output {
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>Generatore di Numeri Casuali</h1>
+    <button onclick="startGenerazione()">Inizia Generazione</button>
+    <div id="output"></div>
+
+    <script>
+        let ArrayNumeriCasuali = [];
+        let ArrayRapporti = [];
+        let ArrayMedie = [];
+        let ArrayDistanze = [];
+        let intervallo;
+        let count = 0;
+        let output = "";
+
+        function startGenerazione() {
+            
+            ArrayNumeriCasuali = [];
+            ArrayRapporti = [];
+            ArrayMedie = [];
+            ArrayDistanze = [];
+            count = 0;
+            output = "";
+            clearInterval(intervallo);
+
+            const min = 0;
+            const max = 1;
+            const mediaRange = (max - min) / 2; // (0.5)
+
+            intervallo = setInterval(() => {
+                const numeroCasuale = Math.random() * (max - min) + min;
+                ArrayNumeriCasuali.push(numeroCasuale);
+
+                
+                const distanza = Math.abs(numeroCasuale - mediaRange);
+                ArrayDistanze.push(distanza);
+
+                
+                if (ArrayNumeriCasuali.length > 1) {
+                    const n = numeroCasuale / ArrayNumeriCasuali[ArrayNumeriCasuali.length - 2];
+                    ArrayRapporti.push(n);
+                }
+
+                output += `#${count + 1}: ${numeroCasuale.toFixed(4)} | Distanza dal centro: ${distanza.toFixed(4)}\n`;
+
+          
+                if ((count + 1) % 50 === 0) {
+                    const ultimi50 = ArrayNumeriCasuali.slice(count - 49, count + 1);
+                    const media = calcolaMedia(ultimi50);
+                    ArrayMedie.push(media);
+                    output += `--> Media (ultimi 50): ${media.toFixed(4)}\n\n`;
+                }
+
+                document.getElementById('output').textContent = output;
+                count++;
+
+                
+                if (count >= 10000) {
+                    clearInterval(intervallo);
+                }
+            }, 500);
+        }
+
+        function calcolaMedia(array) {
+            const somma = array.reduce((acc, num) => acc + num, 0);
+            return somma / array.length;
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
