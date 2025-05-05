@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Gioco con Pallina</title>
+  <style>
+    canvas {
+      background: #000;
+      display: block;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="gameCanvas" width="750" height="600"></canvas>
+
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    let ballX = canvas.width / 2, ballY = canvas.height - 30, ballRadius = 10, dx = 2.5, dy = -3.5;
+    const paddleHeight = 10, paddleWidth = 75;
+    let paddleX = (canvas.width - paddleWidth) / 2;
+    let rightPressed = false, leftPressed = false;
+    let score = 0, gameOver = false;
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Right" || e.key === "ArrowRight") rightPressed = true;
+      else if (e.key === "Left" || e.key === "ArrowLeft") leftPressed = true;
+    });
+    document.addEventListener("keyup", (e) => {
+      if (e.key === "Right" || e.key === "ArrowRight") rightPressed = false;
+      else if (e.key === "Left" || e.key === "ArrowLeft") leftPressed = false;
+    });
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#fff";
+      ctx.font = "16px Arial";
+      ctx.fillText("Punteggio: " + score, 10, 20);
+
+      if (gameOver) {
+        ctx.font = "32px Arial";
+        ctx.fillStyle = "red";
+        ctx.textAlign = "center";
+        ctx.fillText("GAME OVER!!", canvas.width / 2, canvas.height / 2);
+        return;
+      }
+
+      ballX += dx;
+      ballY += dy;
+
+      if (ballX + dx > canvas.width - ballRadius || ballX + dx < ballRadius) {
+        dx = -dx;
+      }
+
+      if (ballY + dy < ballRadius) {
+        dy = -dy;
+      } else if (ballY + dy > canvas.height - ballRadius - 10) {
+        if (ballX > paddleX && ballX < paddleX + paddleWidth) {
+          dy = -dy;
+          score++;
+          dx *= 1.1;
+          dy *= 1.1;
+        } else {
+          gameOver = true;
+        }
+      }
+
+      if (rightPressed && paddleX < canvas.width - paddleWidth) {
+        paddleX += 7;
+      } else if (leftPressed && paddleX > 0) {
+        paddleX -= 7;
+      }
+
+      ctx.beginPath();
+      ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.closePath();
+
+      ctx.beginPath();
+      ctx.rect(paddleX, canvas.height - paddleHeight - 10, paddleWidth, paddleHeight);
+      ctx.fill();
+      ctx.closePath();
+
+      requestAnimationFrame(draw);
+    }
+
+    draw();
+  </script>
+</body>
+</html>
