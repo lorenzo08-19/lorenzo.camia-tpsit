@@ -16,6 +16,10 @@
       text-align: center;
       font-size: 18px;
     }
+    #exportBtn {
+      display: none;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
@@ -25,6 +29,7 @@
 <br>
 <div style="text-align: center;">
   <button onclick="startGame()">Inizia</button>
+  <button id="exportBtn" onclick="exportData()">Esporta dati</button>
 </div>
 
 <script>
@@ -32,19 +37,24 @@
   let reactionTimes = [];
   let attempt = 0;
   const totalAttempts = 5;
+  let ready = false;
+  let timeoutId;
 
   const box = document.getElementById('box');
   const info = document.getElementById('info');
+  const exportBtn = document.getElementById('exportBtn');
 
   function showBox() {
     startTime = Date.now();
-    box.style.display = 'block';
     box.style.backgroundColor = 'green';
+    box.style.display = 'block';
+    ready = true;
   }
 
   function startGame() {
     attempt = 0;
     reactionTimes = [];
+    exportBtn.style.display = 'none';
     info.textContent = "Attendi il colore verde, poi clicca!";
     nextAttempt();
   }
@@ -52,15 +62,28 @@
   function nextAttempt() {
     box.style.display = 'none';
     box.style.backgroundColor = 'grey';
-    let delay = Math.random() * 4000 + 1000; // 1–5 secondi
-    setTimeout(showBox, delay);
+    ready = false;
+    const delay = Math.random() * 4000 + 1000; // 1–5 secondi
+    timeoutId = setTimeout(showBox, delay);
   }
 
   box.onclick = function () {
-    let reactionTime = Date.now() - startTime;
+    if (!ready) {
+      // Clic anticipato
+      clearTimeout(timeoutId);
+      info.textContent = "Hai cliccato troppo presto! Riprova...";
+      setTimeout(() => {
+        info.textContent = "Attendi il colore verde, poi clicca!";
+        nextAttempt();
+      }, 1500);
+      return;
+    }
+
+    const reactionTime = Date.now() - startTime;
     reactionTimes.push(reactionTime);
     attempt++;
     info.textContent = `Tempo di reazione: ${reactionTime} ms`;
+    ready = false;
 
     if (attempt < totalAttempts) {
       setTimeout(() => {
@@ -68,10 +91,24 @@
         nextAttempt();
       }, 1000);
     } else {
-      let avg = reactionTimes.reduce((a, b) => a + b) / reactionTimes.length;
+      const avg = reactionTimes.reduce((a, b) => a + b) / reactionTimes.length;
       info.textContent += ` | Media: ${Math.round(avg)} ms`;
+      exportBtn.style.display = 'inline-block';
       console.log("Tempi di reazione raccolti:", reactionTimes);
     }
+  };
+
+  function exportData() {
+    let content = "Tempi di reazione (ms):\n";
+    content += reactionTimes.map((t, i) => `Tentativo ${i + 1}: ${t} ms`).join("\n");
+    const avg = reactionTimes.reduce((a, b) => a + b) / reactionTimes.length;
+    content += `\nMedia: ${Math.round(avg)} ms`;
+
+    const blob = new Blob([content], { type: "text/plain" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "tempi_reazione.txt";
+    link.click();
   }
 </script>
 
