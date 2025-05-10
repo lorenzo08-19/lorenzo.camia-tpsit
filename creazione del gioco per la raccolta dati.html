@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Gioco dei Tempi di Reazione</title>
+  <style>
+    #box {
+      width: 200px;
+      height: 200px;
+      background-color: grey;
+      margin: 100px auto;
+      display: none;
+      cursor: pointer;
+    }
+    #info {
+      text-align: center;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="info">Premi "Inizia" per giocare!</div>
+<div id="box"></div>
+<br>
+<div style="text-align: center;">
+  <button onclick="startGame()">Inizia</button>
+</div>
+
+<script>
+  let startTime;
+  let reactionTimes = [];
+  let attempt = 0;
+  const totalAttempts = 5;
+
+  const box = document.getElementById('box');
+  const info = document.getElementById('info');
+
+  function showBox() {
+    startTime = Date.now();
+    box.style.display = 'block';
+    box.style.backgroundColor = 'green';
+  }
+
+  function startGame() {
+    attempt = 0;
+    reactionTimes = [];
+    info.textContent = "Attendi il colore verde, poi clicca!";
+    nextAttempt();
+  }
+
+  function nextAttempt() {
+    box.style.display = 'none';
+    box.style.backgroundColor = 'grey';
+    let delay = Math.random() * 4000 + 1000; // 1–5 secondi
+    setTimeout(showBox, delay);
+  }
+
+  box.onclick = function () {
+    let reactionTime = Date.now() - startTime;
+    reactionTimes.push(reactionTime);
+    attempt++;
+    info.textContent = `Tempo di reazione: ${reactionTime} ms`;
+
+    if (attempt < totalAttempts) {
+      setTimeout(() => {
+        info.textContent = "Attendi il colore verde, poi clicca!";
+        nextAttempt();
+      }, 1000);
+    } else {
+      let avg = reactionTimes.reduce((a, b) => a + b) / reactionTimes.length;
+      info.textContent += ` | Media: ${Math.round(avg)} ms`;
+      console.log("Tempi di reazione raccolti:", reactionTimes);
+    }
+  }
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
