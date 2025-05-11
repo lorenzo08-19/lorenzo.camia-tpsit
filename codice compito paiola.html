@@ -9,12 +9,24 @@
       display: block;
       margin: 0 auto;
     }
+
+    #startButton {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
   </style>
 </head>
 <body>
+  <!-- Pulsante per iniziare il gioco -->
+  <button id="startButton">Inizia Gioco</button>
+
+  <!-- Canvas -->
   <canvas id="gameCanvas" width="750" height="600"></canvas>
 
   <script>
+    // Definizioni globali e inizializzazione
     const canvas = document.getElementById("gameCanvas");
     const ctx = canvas.getContext("2d");
 
@@ -24,6 +36,7 @@
     let rightPressed = false, leftPressed = false;
     let score = 0, gameOver = false;
 
+    // Aggiungi eventi per il movimento della piattaforma
     document.addEventListener("keydown", (e) => {
       if (e.key === "Right" || e.key === "ArrowRight") rightPressed = true;
       else if (e.key === "Left" || e.key === "ArrowLeft") leftPressed = true;
@@ -33,12 +46,20 @@
       else if (e.key === "Left" || e.key === "ArrowLeft") leftPressed = false;
     });
 
+    // Modifica la velocità orizzontale e verticale con un moltiplicatore più graduale
+    let speedMultiplier = 1.05; // Moltiplicatore più graduale per la velocità
+
+    // Funzione principale di disegno (renderizza la pallina, la piattaforma, e gestisce le collisioni)
     function draw() {
+      // Pulisce il canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Visualizza il punteggio
       ctx.fillStyle = "#fff";
       ctx.font = "16px Arial";
       ctx.fillText("Punteggio: " + score, 10, 20);
 
+      // Se il gioco è finito, mostra il messaggio di Game Over
       if (gameOver) {
         ctx.font = "32px Arial";
         ctx.fillStyle = "red";
@@ -47,46 +68,87 @@
         return;
       }
 
+      // Movimento della pallina
       ballX += dx;
       ballY += dy;
 
+      // Collisione con le pareti laterali
       if (ballX + dx > canvas.width - ballRadius || ballX + dx < ballRadius) {
         dx = -dx;
       }
 
+      // Collisione con il soffitto
       if (ballY + dy < ballRadius) {
         dy = -dy;
-      } else if (ballY + dy > canvas.height - ballRadius - 10) {
+      } 
+      // Collisione con la piattaforma
+      else if (ballY + dy > canvas.height - ballRadius - 10) {
         if (ballX > paddleX && ballX < paddleX + paddleWidth) {
           dy = -dy;
           score++;
-          dx *= 1.1;
-          dy *= 1.1;
+          // Aumenta la velocità in modo più graduale
+          dx *= speedMultiplier;
+          dy *= speedMultiplier;
         } else {
           gameOver = true;
         }
       }
 
+      // Movimento della piattaforma (paddle)
       if (rightPressed && paddleX < canvas.width - paddleWidth) {
         paddleX += 7;
       } else if (leftPressed && paddleX > 0) {
         paddleX -= 7;
       }
 
+      // Disegna la pallina
       ctx.beginPath();
       ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
       ctx.fill();
       ctx.closePath();
 
+      // Disegna la piattaforma
       ctx.beginPath();
       ctx.rect(paddleX, canvas.height - paddleHeight - 10, paddleWidth, paddleHeight);
       ctx.fill();
       ctx.closePath();
 
+      // Chiamata ricorsiva per continuare il gioco
       requestAnimationFrame(draw);
     }
 
-    draw();
+    // Funzione per avviare il gioco al click del bottone
+    function startGame() {
+      document.getElementById("startButton").style.display = "none";
+      draw();
+    }
+
+    // Assegna l'evento al pulsante
+    document.getElementById("startButton").addEventListener("click", startGame);
   </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
