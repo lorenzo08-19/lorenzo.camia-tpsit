@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <title>Vue Esercizi</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+  <div id="app">
+    
+    <h2>Profilo Utente</h2>
+    <p>Nome: {{ nome }}</p>
+    <p>Cognome: {{ cognome }}</p>
+    <p>Città: {{ citta }}</p>
+
+    
+    <h2>Dettagli Prodotto</h2>
+    <p>Il prodotto {{ nomeProdotto }} costa {{ prezzo }} €</p>
+
+    
+    <h2>Bottone Condizionale</h2>
+    <button v-bind:disabled="immagineDisabilitata">
+      Carica Immagine
+    </button>
+    <br/>
+    <label>
+      <input type="checkbox" v-model="immagineDisabilitata">
+      Disabilita bottone
+    </label>
+
+    
+    <h2>Tooltip Dinamico</h2>
+    <p :title="messaggioTooltip">
+      Passa il mouse sopra questo testo per vedere il tooltip.
+    </p>
+    <input v-model="messaggioTooltip" placeholder="Modifica tooltip..." />
+  </div>
+
+  <script>
+    const { createApp } = Vue;
+
+    createApp({
+      data() {
+        return {
+          
+          nome: 'Lorenzo',
+          cognome: 'Camia',
+          citta: 'Torino',
+
+          
+          nomeProdotto: 'Auricolari Bluetooth',
+          prezzo: 29.99,
+
+          
+          immagineDisabilitata: false,
+
+          
+          messaggioTooltip: 'Questo è un messaggio di tooltip'
+        }
+      }
+    }).mount('#app')
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
