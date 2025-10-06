@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Esempi richiesti</title>
+  <style>
+    .semaforo div {
+      width: 100px;
+      padding: 10px;
+      margin: 5px 0;
+      color: white;
+      text-align: center;
+      font-weight: bold;
+      border-radius: 5px;
+    }
+    .rosso { background-color: red; }
+    .giallo { background-color: goldenrod; }
+    .verde { background-color: green; }
+  </style>
+</head>
+<body>
+
+  
+  <section>
+    <h2>1) Login Utente</h2>
+    <div id="loginMessage"></div>
+  </section>
+
+  
+  <section>
+    <h2>2) Semaforo</h2>
+    <div class="semaforo" id="semaforoContainer">
+      <div class="rosso" style="display:none;">Stop</div>
+      <div class="giallo" style="display:none;">Attenzione</div>
+      <div class="verde" style="display:none;">Vai!</div>
+    </div>
+  </section>
+
+  
+  <section>
+    <h2>3) Classifica</h2>
+    <ol id="teamList"></ol>
+  </section>
+
+  
+  <section>
+    <h2>4) Catalogo Prodotti</h2>
+    <table border="1" cellpadding="5" cellspacing="0">
+      <thead>
+        <tr><th>ID</th><th>Nome</th><th>Prezzo (€)</th></tr>
+      </thead>
+      <tbody id="productTableBody"></tbody>
+    </table>
+  </section>
+
+<script>
+  
+  const isLoggedIn = true; 
+  const loginMessageEl = document.getElementById('loginMessage');
+  if(isLoggedIn) {
+    loginMessageEl.textContent = "Benvenuto, Utente!";
+  } else {
+    loginMessageEl.textContent = "Per favore, accedi.";
+  }
+
+  
+  const coloreSemaforo = 'giallo'; 
+  const semaforoContainer = document.getElementById('semaforoContainer');
+  // Nascondo tutti e mostro solo il colore corretto
+  [...semaforoContainer.children].forEach(div => {
+    div.style.display = (div.classList.contains(coloreSemaforo)) ? 'block' : 'none';
+  });
+
+  
+  const teamPreferiti = ['Juventus', 'Inter', 'Milan']; // Cambia con i tuoi team preferiti
+  const teamListEl = document.getElementById('teamList');
+  teamPreferiti.forEach(team => {
+    const li = document.createElement('li');
+    li.textContent = team;
+    teamListEl.appendChild(li);
+  });
+
+  
+  const prodotti = [
+    {id: 1, nome: 'Maglietta', prezzo: 19.99},
+    {id: 2, nome: 'Pantaloni', prezzo: 29.99},
+    {id: 3, nome: 'Scarpe', prezzo: 49.99}
+  ];
+  const productTableBody = document.getElementById('productTableBody');
+  prodotti.forEach(p => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${p.id}</td><td>${p.nome}</td><td>${p.prezzo.toFixed(2)}</td>`;
+    productTableBody.appendChild(tr);
+  });
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
