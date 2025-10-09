@@ -164,6 +164,23 @@ return {
 # sample_config = {"tasks":[{"id":"P1","arrival":0,"burst":20}, ... ]}
 # res = run_simulation(sample_config)
 
+{
+"tasks": [
+{"id":"P1", "arrival":0, "burst":20},
+{"id":"P2", "arrival":8, "burst":5},
+{"id":"P3", "arrival":3, "burst":12}
+]
+} 
+
+
+{
+"generate_ai": {
+"n": 10,
+"arrival_range": [0, 50],
+"burst_range": [1, 20],
+"seed": 42
+}
+}
 
 
 
