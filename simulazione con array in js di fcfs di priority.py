@@ -1,0 +1,183 @@
+# scheduling_simulator.py
+import random, pandas as pd
+from typing import List, Dict, Any, Tuple
+
+def simulate_fcfs(tasks):
+tasks_sorted = sorted(tasks, key=lambda t: (t['arrival'], t['id']))
+time = 0
+events = []
+results = []
+for t in tasks_sorted:
+start = max(time, t['arrival'])
+end = start + t['burst']
+wt = start - t['arrival']
+tat = end - t['arrival']
+results.append({**t, 'start': start, 'end': end, 'waiting': wt, 'turnaround': tat})
+events.append((t['id'], start, end))
+time = end
+return results, events
+
+def simulate_sjf_nonpreemptive(tasks):
+tasks_copy = [dict(t) for t in tasks]
+time = 0
+completed = []
+events = []
+tasks_copy.sort(key=lambda t: (t['arrival'], t['burst'], t['id']))
+remaining = tasks_copy[:]
+while remaining:
+available = [t for t in remaining if t['arrival'] <= time]
+if not available:
+time = min(t['arrival'] for t in remaining)
+available = [t for t in remaining if t['arrival'] <= time]
+available.sort(key=lambda t: (t['burst'], t['arrival'], t['id']))
+t = available[0]
+start = max(time, t['arrival'])
+end = start + t['burst']
+wt = start - t['arrival']
+tat = end - t['arrival']
+completed.append({**t, 'start': start, 'end': end, 'waiting': wt, 'turnaround': tat})
+events.append((t['id'], start, end))
+time = end
+remaining.remove(t)
+completed.sort(key=lambda x: x['id'])
+return completed, events
+
+def simulate_srtf(tasks):
+tasks_copy = [dict(t) for t in tasks]
+n = len(tasks_copy)
+time = 0
+remaining = {t['id']: t['burst'] for t in tasks_copy}
+arrival_map = {t['id']: t['arrival'] for t in tasks_copy}
+start_times = {}
+end_times = {}
+events = []
+current = None
+last_switch_time = None
+
+while len(end_times) < n:
+available = [pid for pid, rem in remaining.items() if rem > 0 and arrival_map[pid] <= time]
+if not available:
+next_arrival = min([a for a in arrival_map.values() if a > time], default=None)
+if next_arrival is None:
+break
+time = next_arrival
+continue
+available.sort(key=lambda pid: (remaining[pid], arrival_map[pid], pid))
+pid = available[0]
+if current != pid:
+if current is not None and last_switch_time is not None:
+events.append((current, last_switch_time, time))
+current = pid
+last_switch_time = time
+if pid not in start_times:
+start_times[pid] = time
+remaining[pid] -= 1
+time += 1
+if remaining[pid] == 0:
+end_times[pid] = time
+events.append((pid, last_switch_time, time))
+current = None
+last_switch_time = None
+
+results = []
+for t in tasks_copy:
+pid = t['id']
+start = start_times.get(pid, None)
+end = end_times.get(pid, None)
+if end is None: continue
+wt = (end - t['arrival'] - t['burst'])
+tat = end - t['arrival']
+results.append({**t, 'start': start, 'end': end, 'waiting': wt, 'turnaround': tat})
+results.sort(key=lambda x: x['id'])
+events_sorted = sorted(events, key=lambda e: (e[1], e[2], e[0]))
+merged = []
+for pid, s, e in events_sorted:
+if merged and merged[-1][0] == pid and merged[-1][2] == s:
+merged[-1] = (pid, merged[-1][1], e)
+else:
+merged.append((pid, s, e))
+return results, merged
+
+def metrics_from_results(results):
+avg_wait = sum(r['waiting'] for r in results) / len(results)
+avg_tat = sum(r['turnaround'] for r in results) / len(results)
+return {'per_process': results, 'avg_wait': avg_wait, 'avg_turnaround': avg_tat}
+
+def print_report(title, results, events):
+print(f"--- {title} ---")
+df = pd.DataFrame(results)
+cols = ['id', 'arrival', 'burst', 'start', 'end', 'waiting', 'turnaround']
+print(df[cols].to_string(index=False))
+gantt = ' | '.join([f"{pid}:{s}-{e}" for pid, s, e in events])
+print("\nGantt (segments):", gantt)
+metrics = metrics_from_results(results)
+print(f"\nAvg waiting = {metrics['avg_wait']:.3f} ms, Avg turnaround = {metrics['avg_turnaround']:.3f} ms\n")
+return metrics
+
+def generate_tasks_with_ai(n, arrival_range=(0,20), burst_range=(1,20), seed=None):
+if seed is not None:
+random.seed(seed)
+tasks = []
+for i in range(1, n+1):
+arrival = random.randint(arrival_range[0], arrival_range[1])
+burst = random.randint(burst_range[0], burst_range[1])
+tasks.append({'id': f'P{i}', 'arrival': arrival, 'burst': burst})
+return tasks
+
+def run_simulation(config):
+if 'tasks' in config and config['tasks']:
+tasks = config['tasks']
+elif config.get('generate_ai'):
+gen = config['generate_ai']
+tasks = generate_tasks_with_ai(gen.get('n',5),
+tuple(gen.get('arrival_range', (0,20))),
+tuple(gen.get('burst_range', (1,20))),
+seed=gen.get('seed'))
+else:
+raise ValueError("Config must contain 'tasks' or 'generate_ai'")
+
+normalized = []
+for t in tasks:
+normalized.append({'id': str(t['id']), 'arrival': int(t['arrival']), 'burst': int(t['burst'])})
+
+print("Input tasks:")
+df_in = pd.DataFrame(normalized).sort_values(['arrival','id'])
+print(df_in.to_string(index=False))
+
+fcfs_res, fcfs_events = simulate_fcfs(normalized)
+sjf_res, sjf_events = simulate_sjf_nonpreemptive(normalized)
+srtf_res, srtf_events = simulate_srtf(normalized)
+
+fcfs_metrics = print_report("FCFS", fcfs_res, fcfs_events)
+sjf_metrics = print_report("SJF non-preemptive", sjf_res, sjf_events)
+srtf_metrics = print_report("SRTF (preemptive SJF)", srtf_res, srtf_events)
+
+return {
+'input': normalized,
+'fcfs': fcfs_metrics,
+'sjf': sjf_metrics,
+'srtf': srtf_metrics,
+'events': {'fcfs': fcfs_events, 'sjf': sjf_events, 'srtf': srtf_events}
+}
+
+# Example usage (uncomment to run)
+# sample_config = {"tasks":[{"id":"P1","arrival":0,"burst":20}, ... ]}
+# res = run_simulation(sample_config)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
