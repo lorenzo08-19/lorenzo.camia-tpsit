@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Funzioni Richieste</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+    hr {
+      margin: 30px 0;
+    }
+    label {
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <!-- 1. Cambia Messaggio -->
+  <h2>1. Cambia Messaggio</h2>
+  <p id="messaggio">Clicca il bottone per cambiare questo messaggio</p>
+  <button id="btnCambiaMessaggio">Cambia Messaggio</button>
+
+  <hr />
+
+  <!-- 2. Accendi/Spegni -->
+  <h2>2. Accendi/Spegni</h2>
+  <button id="btnToggleLuce">Toggle Luce</button>
+  <p id="statoLuce">La luce è spenta</p>
+
+  <hr />
+
+  <!-- 3. Convertitore di Unità Semplice -->
+  <h2>3. Convertitore di Unità Semplice</h2>
+  <input type="number" id="inputKg" placeholder="Inserisci kg" value="0" min="0" />
+  <p><span id="kgVal">0</span> kg = <span id="gVal">0</span> grammi</p>
+
+  <hr />
+
+  <!-- 4. Form di Registrazione Semplice -->
+  <h2>4. Form di Registrazione Semplice</h2>
+  <form id="formReg" onsubmit="return false;">
+    <div>
+      <label for="nome">Nome:</label>
+      <input type="text" id="nome" />
+    </div>
+    <div>
+      <label>Genere:</label>
+      <label><input type="radio" name="genere" value="Uomo" /> Uomo</label>
+      <label><input type="radio" name="genere" value="Donna" /> Donna</label>
+      <label><input type="radio" name="genere" value="Altro" /> Altro</label>
+    </div>
+    <div>
+      <label for="paese">Paese:</label>
+      <select id="paese">
+        <option value="">Seleziona paese</option>
+        <option value="Italia">Italia</option>
+        <option value="Germania">Germania</option>
+        <option value="Francia">Francia</option>
+      </select>
+    </div>
+  </form>
+
+  <h3>Riepilogo</h3>
+  <p>Nome: <span id="rNome">-</span></p>
+  <p>Genere: <span id="rGenere">-</span></p>
+  <p>Paese: <span id="rPaese">-</span></p>
+
+<script>
+  
+  const messaggio = document.getElementById('messaggio');
+  const btnCambiaMessaggio = document.getElementById('btnCambiaMessaggio');
+  btnCambiaMessaggio.addEventListener('click', () => {
+    messaggio.textContent = 'Hai cliccato il bottone!';
+  });
+
+  
+  let luceAccesa = false;
+  const btnToggleLuce = document.getElementById('btnToggleLuce');
+  const statoLuce = document.getElementById('statoLuce');
+  btnToggleLuce.addEventListener('click', () => {
+    luceAccesa = !luceAccesa;
+    statoLuce.textContent = luceAccesa ? 'La luce è accesa' : 'La luce è spenta';
+  });
+
+  
+  const inputKg = document.getElementById('inputKg');
+  const kgVal = document.getElementById('kgVal');
+  const gVal = document.getElementById('gVal');
+
+  inputKg.addEventListener('input', () => {
+    let kg = parseFloat(inputKg.value);
+    if (isNaN(kg) || kg < 0) kg = 0;
+    kgVal.textContent = kg.toFixed(2);
+    gVal.textContent = (kg * 1000).toFixed(2);
+  });
+
+  
+  const nomeInput = document.getElementById('nome');
+  const genereInputs = document.querySelectorAll('input[name="genere"]');
+  const paeseSelect = document.getElementById('paese');
+
+  const rNome = document.getElementById('rNome');
+  const rGenere = document.getElementById('rGenere');
+  const rPaese = document.getElementById('rPaese');
+
+  function aggiornaRiepilogo() {
+    rNome.textContent = nomeInput.value.trim() || '-';
+
+    let genereSelezionato = '-';
+    genereInputs.forEach(input => {
+      if (input.checked) {
+        genereSelezionato = input.value;
+      }
+    });
+    rGenere.textContent = genereSelezionato;
+
+    rPaese.textContent = paeseSelect.value || '-';
+  }
+
+  nomeInput.addEventListener('input', aggiornaRiepilogo);
+  paeseSelect.addEventListener('change', aggiornaRiepilogo);
+  genereInputs.forEach(input => input.addEventListener('change', aggiornaRiepilogo));
+
+  
+  aggiornaRiepilogo();
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
