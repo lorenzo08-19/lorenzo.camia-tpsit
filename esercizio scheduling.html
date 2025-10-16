@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simulatore di Scheduling</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    textarea { width: 100%; height: 150px; }
+    select, button { margin: 10px 0; padding: 8px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+    th { background-color: #f0f0f0; }
+  </style>
+</head>
+<body>
+  <h2>Simulatore Algoritmi di Scheduling</h2>
+
+  <label for="inputJSON">📥 Inserisci JSON dei task:</label>
+  <textarea id="inputJSON">[
+  {"id": "P1", "arrivalTime": 0, "burstTime": 5, "priority": 2},
+  {"id": "P2", "arrivalTime": 1, "burstTime": 3, "priority": 1},
+  {"id": "P3", "arrivalTime": 2, "burstTime": 8, "priority": 4},
+  {"id": "P4", "arrivalTime": 3, "burstTime": 6, "priority": 3}
+]</textarea>
+
+  <label for="algorithm"> Seleziona algoritmo:</label>
+  <select id="algorithm">
+    <option value="fcfs">FCFS (First Come First Serve)</option>
+    <option value="sjf">SJF (Shortest Job First)</option>
+    <option value="priority">Priority Scheduling</option>
+    <option value="rr">Round Robin (quantum = 2)</option>
+  </select>
+  <br>
+
+  <button onclick="runScheduling()"> Esegui</button>
+
+  <div id="result"></div>
+
+  <script>
+    function runScheduling() {
+      const input = document.getElementById("inputJSON").value;
+      const algo = document.getElementById("algorithm").value;
+      let processes;
+
+      try {
+        processes = JSON.parse(input);
+      } catch (e) {
+        alert("JSON non valido");
+        return;
+      }
+
+      let result;
+      switch (algo) {
+        case 'fcfs': result = fcfs(processes); break;
+        case 'sjf': result = sjf(processes); break;
+        case 'priority': result = priorityScheduling(processes); break;
+        case 'rr': result = roundRobin(processes, 2); break;
+        default: alert("Algoritmo non valido"); return;
+      }
+
+      displayResult(result);
+    }
+
+    function fcfs(processes) {
+      let time = 0;
+      let results = [];
+      let sorted = [...processes].sort((a, b) => a.arrivalTime - b.arrivalTime);
+
+      for (let p of sorted) {
+        let start = Math.max(time, p.arrivalTime);
+        let wait = start - p.arrivalTime;
+        let turnaround = wait + p.burstTime;
+        results.push({ ...p, start, waitTime: wait, turnaroundTime: turnaround });
+        time = start + p.burstTime;
+      }
+
+      return results;
+    }
+
+    function sjf(processes) {
+      let time = 0, completed = 0;
+      let n = processes.length;
+      let results = [];
+      let queue = [];
+
+      let proc = processes.map(p => ({ ...p, completed: false }));
+
+      while (completed < n) {
+        queue = proc.filter(p => !p.completed && p.arrivalTime <= time);
+        if (queue.length === 0) {
+          time++;
+          continue;
+        }
+        let shortest = queue.sort((a, b) => a.burstTime - b.burstTime)[0];
+        let start = time;
+        let wait = start - shortest.arrivalTime;
+        let turnaround = wait + shortest.burstTime;
+        results.push({ ...shortest, start, waitTime: wait, turnaroundTime: turnaround });
+        time += shortest.burstTime;
+        shortest.completed = true;
+        completed++;
+      }
+
+      return results;
+    }
+
+    function priorityScheduling(processes) {
+      let time = 0, completed = 0;
+      let n = processes.length;
+      let results = [];
+      let queue = [];
+
+      let proc = processes.map(p => ({ ...p, completed: false }));
+
+      while (completed < n) {
+        queue = proc.filter(p => !p.completed && p.arrivalTime <= time);
+        if (queue.length === 0) {
+          time++;
+          continue;
+        }
+        let next = queue.sort((a, b) => a.priority - b.priority)[0];
+        let start = time;
+        let wait = start - next.arrivalTime;
+        let turnaround = wait + next.burstTime;
+        results.push({ ...next, start, waitTime: wait, turnaroundTime: turnaround });
+        time += next.burstTime;
+        next.completed = true;
+        completed++;
+      }
+
+      return results;
+    }
+
+    function roundRobin(processes, quantum) {
+      let time = 0;
+      let queue = [];
+      let results = [];
+      let proc = processes.map(p => ({ ...p, remaining: p.burstTime, start: -1 }));
+      let arrived = [];
+      let done = new Set();
+
+      while (done.size < proc.length) {
+        arrived = proc.filter(p => p.arrivalTime <= time && !done.has(p.id));
+        for (let p of arrived) if (!queue.includes(p)) queue.push(p);
+
+        if (queue.length === 0) {
+          time++;
+          continue;
+        }
+
+        let p = queue.shift();
+        if (p.start === -1) p.start = time;
+
+        let execTime = Math.min(quantum, p.remaining);
+        time += execTime;
+        p.remaining -= execTime;
+
+        if (p.remaining <= 0) {
+          done.add(p.id);
+          let wait = time - p.arrivalTime - p.burstTime;
+          let turnaround = time - p.arrivalTime;
+          results.push({ ...p, waitTime: wait, turnaroundTime: turnaround });
+        } else {
+          
+          queue.push(p);
+        }
+      }
+
+      return results;
+    }
+
+    function displayResult(results) {
+      let html = "<h3> Risultati:</h3>";
+      html += "<table><tr><th>ID</th><th>Arrival</th><th>Burst</th><th>Start</th><th>Wait</th><th>Turnaround</th><th>Priority</th></tr>";
+      let totalWait = 0, totalTurn = 0;
+      for (let r of results) {
+        html += `<tr>
+          <td>${r.id}</td>
+          <td>${r.arrivalTime}</td>
+          <td>${r.burstTime}</td>
+          <td>${r.start ?? '-'}</td>
+          <td>${r.waitTime}</td>
+          <td>${r.turnaroundTime}</td>
+          <td>${r.priority ?? '-'}</td>
+        </tr>`;
+        totalWait += r.waitTime;
+        totalTurn += r.turnaroundTime;
+      }
+      let n = results.length;
+      html += `</table><p> Tempo medio di attesa: <b>${(totalWait / n).toFixed(2)}</b></p>`;
+      html += `<p>⏱️ Tempo medio di turnaround: <b>${(totalTurn / n).toFixed(2)}</b></p>`;
+      document.getElementById("result").innerHTML = html;
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
