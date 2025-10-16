@@ -15,7 +15,7 @@
 <body>
   <h2>Simulatore Algoritmi di Scheduling</h2>
 
-  <label for="inputJSON">📥 Inserisci JSON dei task:</label>
+  <label for="inputJSON"> Inserisci JSON dei task:</label>
   <textarea id="inputJSON">[
   {"id": "P1", "arrivalTime": 0, "burstTime": 5, "priority": 2},
   {"id": "P2", "arrivalTime": 1, "burstTime": 3, "priority": 1},
@@ -188,7 +188,7 @@
       }
       let n = results.length;
       html += `</table><p> Tempo medio di attesa: <b>${(totalWait / n).toFixed(2)}</b></p>`;
-      html += `<p>⏱️ Tempo medio di turnaround: <b>${(totalTurn / n).toFixed(2)}</b></p>`;
+      html += `<p> Tempo medio di turnaround: <b>${(totalTurn / n).toFixed(2)}</b></p>`;
       document.getElementById("result").innerHTML = html;
     }
   </script>
