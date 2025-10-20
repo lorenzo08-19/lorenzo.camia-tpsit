@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Esercizi Vue.js</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    input, textarea { display: block; margin-bottom: 10px; }
+    .errore { color: red; }
+    .salvataggio { font-style: italic; color: green; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    
+    <h2>1. Controllo Maggiore Età</h2>
+    <label>Età: <input type="number" v-model.number="eta" /></label>
+    <p>{{ messaggioEta }}</p>
+
+    
+    <h2>2. Carrello</h2>
+    <ul>
+      <li v-for="(prodotto, index) in carrello" :key="index">
+        {{ prodotto.nome }} - €{{ prodotto.prezzo.toFixed(2) }}
+      </li>
+    </ul>
+    <p><strong>Totale:</strong> €{{ totaleCarrello.toFixed(2) }}</p>
+
+    
+    <h2>3. Validazione Username</h2>
+    <label>Username: <input v-model="username" /></label>
+    <p v-if="erroreUsername" class="errore">L'username deve essere lungo almeno 5 caratteri.</p>
+
+    
+    <h2>4. Salvataggio Automatico</h2>
+    <textarea v-model="contenuto" rows="4" cols="40"></textarea>
+    <p class="salvataggio">{{ statoSalvataggio }}</p>
+  </div>
+
+  <script>
+    const { createApp, ref, reactive, computed, watch } = Vue;
+
+    createApp({
+      setup() {
+        
+        const eta = ref(0);
+        const messaggioEta = computed(() => eta.value >= 18 ? "Maggiorenne" : "Minorenne");
+
+        
+        const carrello = ref([
+          { nome: "Libro", prezzo: 12.99 },
+          { nome: "Penna", prezzo: 1.5 },
+          { nome: "Quaderno", prezzo: 3.2 }
+        ]);
+        const totaleCarrello = computed(() =>
+          carrello.value.reduce((totale, p) => totale + p.prezzo, 0)
+        );
+
+  
+        const username = ref("");
+        const erroreUsername = ref(false);
+
+        watch(username, (nuovo) => {
+          erroreUsername.value = nuovo.length < 5;
+        });
+
+        
+        const contenuto = ref("");
+        const statoSalvataggio = ref("");
+
+        let timeoutId = null;
+
+        watch(contenuto, () => {
+          statoSalvataggio.value = "Sto salvando...";
+          clearTimeout(timeoutId);
+          timeoutId = setTimeout(() => {
+            statoSalvataggio.value = "Salvato!";
+          }, 1000);
+        });
+
+        return {
+          eta,
+          messaggioEta,
+          carrello,
+          totaleCarrello,
+          username,
+          erroreUsername,
+          contenuto,
+          statoSalvataggio
+        };
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
