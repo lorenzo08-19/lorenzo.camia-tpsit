@@ -1,0 +1,45 @@
+<div id="app">
+  <div :class="messageClass" class="message-box">
+    {{ message }}
+  </div>
+
+  <button @click="setSuccess">Imposta come Successo</button>
+  <button @click="setError">Imposta come Errore</button>
+</div>
+
+<script src="https://unpkg.com/vue@3"></script>
+<script>
+const app = Vue.createApp({
+  data() {
+    return {
+      message: "Questo è un messaggio di stato.",
+      messageClass: ""
+    };
+  },
+  methods: {
+    setSuccess() {
+      this.messageClass = "success";
+    },
+    setError() {
+      this.messageClass = "error";
+    }
+  }
+});
+app.mount("#app");
+</script>
+
+<style>
+.message-box {
+  padding: 1em;
+  border-radius: 5px;
+  color: white;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.success {
+  background-color: green;
+}
+.error {
+  background-color: red;
+}
+</style>
