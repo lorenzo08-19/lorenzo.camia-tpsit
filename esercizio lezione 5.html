@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Esercizi JavaScript</title>
+  <style>
+   
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    h2 {
+      margin-top: 40px;
+      color: #333;
+    }
+    hr {
+      margin: 20px 0;
+    }
+
+    .messaggio {
+      padding: 10px;
+      border-radius: 6px;
+      color: white;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .success {
+      background-color: #4caf50;
+    }
+    .error {
+      background-color: #f44336;
+    }
+
+    .avatar {
+      border-radius: 50%;
+      border: 2px solid #333;
+      margin: 10px 0;
+      display: inline-block;
+    }
+    .controlli {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      max-width: 220px;
+    }
+
+    .saluto {
+      background-color: #e3f2fd;
+      border: 1px solid #90caf9;
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+      margin: 5px 0;
+    }
+
+    .card {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 15px;
+      background-color: #fafafa;
+      box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+      width: 250px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Esercizi JavaScript</h1>
+
+  <h2>1️ Stato del Messaggio</h2>
+  <div id="messaggio" class="messaggio">
+    Nessun messaggio ancora.
+  </div>
+  <button onclick="impostaSuccesso()">Imposta come Successo</button>
+  <button onclick="impostaErrore()">Imposta come Errore</button>
+
+  <hr>
+>
+  <h2>2️ Avatar Personalizzabile</h2>
+  <div id="avatar" class="avatar"></div>
+  <div class="controlli">
+    <label>Larghezza (px): <input type="number" id="widthInput" value="100"></label>
+    <label>Altezza (px): <input type="number" id="heightInput" value="100"></label>
+    <label>Colore sfondo: <input type="color" id="colorInput" value="#2196f3"></label>
+    <button onclick="aggiornaAvatar()">Aggiorna Avatar</button>
+  </div>
+
+  <hr>
+
+  <h2>3️ Saluto Personale</h2>
+  <div class="saluto">Benvenuto nella nostra applicazione!</div>
+  <div class="saluto">Benvenuto nella nostra applicazione!</div>
+
+  <hr>
+
+  <h2>4️ Card Semplice</h2>
+  <div class="card">
+    <h3>Titolo della Card</h3>
+    <p>Contenuto della card...</p>
+  </div>
+
+  <script>
+  
+    function impostaSuccesso() {
+      const div = document.getElementById('messaggio');
+      div.className = 'messaggio success';
+      div.textContent = 'Operazione completata con successo!';
+    }
+
+    function impostaErrore() {
+      const div = document.getElementById('messaggio');
+      div.className = 'messaggio error';
+      div.textContent = 'Si è verificato un errore.';
+    }
+    function aggiornaAvatar() {
+      const avatar = document.getElementById('avatar');
+      const width = document.getElementById('widthInput').value;
+      const height = document.getElementById('heightInput').value;
+      const color = document.getElementById('colorInput').value;
+
+      avatar.style.width = width + 'px';
+      avatar.style.height = height + 'px';
+      avatar.style.backgroundColor = color;
+    }
+
+    aggiornaAvatar();
+  </script>
+
+</body>
+</html>
