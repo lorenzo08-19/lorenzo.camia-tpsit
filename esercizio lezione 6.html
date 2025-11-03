@@ -2,156 +2,80 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <title>Esercizi Vue - Props & Eventi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Componenti Vue - Props ed Eventi</title>
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   <style>
+    
     body {
       font-family: Arial, sans-serif;
-      background: #f7f7f7;
       padding: 20px;
     }
-    section {
-      background: white;
-      padding: 20px;
-      margin-bottom: 25px;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    h2 {
-      color: #333;
-      margin-bottom: 15px;
-    }
-    /*  Product Card */
     .product-card {
       border: 1px solid #ccc;
+      border-radius: 8px;
       padding: 10px;
-      margin: 8px;
-      border-radius: 6px;
-      background: #fafafa;
-      width: 180px;
-      display: inline-block;
-      text-align: center;
+      margin: 10px 0;
     }
-    /*  Alert Box */
-    .alert {
+    .alert-box {
       padding: 10px;
       border-radius: 5px;
-      margin: 10px 0;
-      font-weight: bold;
+      margin-bottom: 10px;
+      color: white;
     }
     .success {
-      background-color: #d4edda;
-      color: #155724;
-      border: 1px solid #c3e6cb;
+      background-color: #4caf50;
     }
     .error {
-      background-color: #f8d7da;
-      color: #721c24;
-      border: 1px solid #f5c6cb;
-    }
-    /*  Modale */
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.5);
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      background-color: #f44336;
     }
     .modal {
-      background: white;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      display: flex; justify-content: center; align-items: center;
+    }
+    .modal-content {
+      background-color: white;
       padding: 20px;
-      width: 300px;
       border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      min-width: 200px;
       text-align: center;
     }
-    .chiudi-btn {
-      margin-top: 15px;
-      background: #d9534f;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 4px;
+    .stars {
+      display: flex;
+      gap: 5px;
       cursor: pointer;
+      font-size: 24px;
+      color: gray;
     }
-    .chiudi-btn:hover {
-      background: #c9302c;
-    }
-    .apri-btn {
-      background: #0275d8;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .apri-btn:hover {
-      background: #025aa5;
-    }
-    /*  Stelle */
-    .star-rating button {
-      font-size: 30px;
-      color: #ccc;
-      border: none;
-      background: none;
-      cursor: pointer;
-      transition: color 0.2s;
-    }
-    .star-rating button.active {
-      color: gold;
-    }
-    .star-rating button:hover {
+    .star.active {
       color: gold;
     }
   </style>
 </head>
 <body>
   <div id="app">
-    <h1>Esercizi Vue - Props & Eventi</h1>
+    <h1>1. Card Prodotto (Props)</h1>
+    <product-card 
+      v-for="(p, index) in prodotti" 
+      :key="index" 
+      :nome-prodotto="p.nome" 
+      :prezzo="p.prezzo">
+    </product-card>
 
-    <!-- 1️ CARD PRODOTTO -->
-    <section>
-      <h2>1. Card Prodotto</h2>
-      <product-card
-        v-for="(p, i) in prodotti"
-        :key="i"
-        :nome-prodotto="p.nome"
-        :prezzo="p.prezzo"
-      ></product-card>
-    </section>
+    <h1>2. Alert Box (Props + Classi dinamiche)</h1>
+    <alert-box messaggio="Operazione completata con successo!" tipo="success"></alert-box>
+    <alert-box messaggio="Si è verificato un errore!" tipo="error"></alert-box>
 
-    <!-- 2️ ALERT BOX -->
-    <section>
-      <h2>2. Alert Box</h2>
-      <alert-box messaggio="Operazione completata con successo!" tipo="success"></alert-box>
-      <alert-box messaggio="Si è verificato un errore!" tipo="error"></alert-box>
-    </section>
+    <h1>3. Chiudi Modale (Eventi)</h1>
+    <button @click="modaleAperta = true">Apri Modale</button>
+    <modal-dialog v-if="modaleAperta" @chiudi="modaleAperta = false"></modal-dialog>
 
-    <!-- 3️ MODALE -->
-    <section>
-      <h2>3. Chiudi Modale</h2>
-      <button @click="modaleAperta = true" class="apri-btn">Apri Modale</button>
-
-      <modal-dialog v-if="modaleAperta" @chiudi="modaleAperta = false">
-        <h3>Benvenuto nella Modale!</h3>
-        <p>Questo è il contenuto interno della finestra modale.</p>
-      </modal-dialog>
-    </section>
-
-    <!-- 4️ VALUTAZIONE A STELLE -->
-    <section>
-      <h2>4. Valutazione a Stelle</h2>
-      <star-rating
-        :valore-attivo="valutazione"
-        @imposta-valutazione="valutazione = $event"
-      ></star-rating>
-      <p>Valutazione selezionata: {{ valutazione }} stelle</p>
-    </section>
+    <h1>4. Valutazione a Stelle (Eventi)</h1>
+    <star-rating @imposta-valutazione="valutazione = $event"></star-rating>
+    <p>Valutazione scelta: {{ valutazione }}</p>
   </div>
 
   <script>
@@ -159,17 +83,17 @@
       data() {
         return {
           prodotti: [
-            { nome: 'Laptop', prezzo: 999.99 },
-            { nome: 'Mouse', prezzo: 25.99 },
-            { nome: 'Tastiera', prezzo: 49.99 }
+            { nome: "Mouse Logitech", prezzo: 29.99 },
+            { nome: "Tastiera Meccanica", prezzo: 79.99 },
+            { nome: "Monitor 27''", prezzo: 199.99 }
           ],
           modaleAperta: false,
           valutazione: 0
-        }
+        };
       }
     });
 
-    /*  Componente ProductCard */
+    
     app.component('product-card', {
       props: ['nomeProdotto', 'prezzo'],
       template: `
@@ -180,45 +104,48 @@
       `
     });
 
-    /*  Componente AlertBox */
+    
     app.component('alert-box', {
-      props: {
-        messaggio: String,
-        tipo: {
-          type: String,
-          default: 'success'
-        }
-      },
+      props: ['messaggio', 'tipo'],
       template: `
-        <div :class="['alert', tipo]">
+        <div class="alert-box" :class="tipo">
           {{ messaggio }}
         </div>
       `
     });
 
-    /*  Componente ModalDialog */
+    
     app.component('modal-dialog', {
       template: `
-        <div class="overlay">
-          <div class="modal">
-            <slot></slot>
-            <button class="chiudi-btn" @click="$emit('chiudi')">Chiudi</button>
+        <div class="modal">
+          <div class="modal-content">
+            <p>Questa è una modale!</p>
+            <button @click="$emit('chiudi')">Chiudi</button>
           </div>
         </div>
       `
     });
 
-    /*  Componente StarRating */
+    
     app.component('star-rating', {
-      props: ['valoreAttivo'],
+      data() {
+        return { rating: 0 };
+      },
+      methods: {
+        impostaValutazione(val) {
+          this.rating = val;
+          this.$emit('imposta-valutazione', val);
+        }
+      },
       template: `
-        <div class="star-rating">
-          <button
-            v-for="n in 5"
-            :key="n"
-            @click="$emit('imposta-valutazione', n)"
-            :class="{ active: n <= valoreAttivo }"
-          >★</button>
+        <div class="stars">
+          <span 
+            v-for="i in 5" 
+            :key="i" 
+            @click="impostaValutazione(i)"
+            :class="['star', { active: i <= rating }]">
+            ★
+          </span>
         </div>
       `
     });
@@ -227,10 +154,6 @@
   </script>
 </body>
 </html>
-
-
-
-
 
 
 
