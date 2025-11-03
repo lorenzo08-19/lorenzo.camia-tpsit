@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
   <meta charset="UTF-8">
   <title>Esercizi Vue - Props & Eventi</title>
@@ -25,7 +25,7 @@
       color: #333;
       margin-bottom: 15px;
     }
-     Product Card 
+    /*  Product Card */
     .product-card {
       border: 1px solid #ccc;
       padding: 10px;
@@ -36,7 +36,7 @@
       display: inline-block;
       text-align: center;
     }
-     Alert Box *
+    /*  Alert Box */
     .alert {
       padding: 10px;
       border-radius: 5px;
@@ -53,7 +53,7 @@
       color: #721c24;
       border: 1px solid #f5c6cb;
     }
-    Modale 
+    /*  Modale */
     .overlay {
       position: fixed;
       inset: 0;
@@ -93,7 +93,7 @@
     .apri-btn:hover {
       background: #025aa5;
     }
-     Stelle 
+    /*  Stelle */
     .star-rating button {
       font-size: 30px;
       color: #ccc;
@@ -114,7 +114,7 @@
   <div id="app">
     <h1>Esercizi Vue - Props & Eventi</h1>
 
-     CARD PRODOTTO 
+    <!-- 1️ CARD PRODOTTO -->
     <section>
       <h2>1. Card Prodotto</h2>
       <product-card
@@ -125,14 +125,14 @@
       ></product-card>
     </section>
 
-     ALERT BOX 
+    <!-- 2️ ALERT BOX -->
     <section>
       <h2>2. Alert Box</h2>
       <alert-box messaggio="Operazione completata con successo!" tipo="success"></alert-box>
       <alert-box messaggio="Si è verificato un errore!" tipo="error"></alert-box>
     </section>
 
-     MODALE 
+    <!-- 3️ MODALE -->
     <section>
       <h2>3. Chiudi Modale</h2>
       <button @click="modaleAperta = true" class="apri-btn">Apri Modale</button>
@@ -143,7 +143,7 @@
       </modal-dialog>
     </section>
 
-     VALUTAZIONE A   STELLE
+    <!-- 4️ VALUTAZIONE A STELLE -->
     <section>
       <h2>4. Valutazione a Stelle</h2>
       <star-rating
@@ -169,7 +169,7 @@
       }
     });
 
-    Componente ProductCard 
+    /*  Componente ProductCard */
     app.component('product-card', {
       props: ['nomeProdotto', 'prezzo'],
       template: `
@@ -180,7 +180,7 @@
       `
     });
 
-    Componente AlertBox 
+    /*  Componente AlertBox */
     app.component('alert-box', {
       props: {
         messaggio: String,
@@ -196,7 +196,7 @@
       `
     });
 
-     Componente ModalDialog 
+    /*  Componente ModalDialog */
     app.component('modal-dialog', {
       template: `
         <div class="overlay">
@@ -208,7 +208,7 @@
       `
     });
 
-     Componente StarRating 
+    /*  Componente StarRating */
     app.component('star-rating', {
       props: ['valoreAttivo'],
       template: `
@@ -227,9 +227,6 @@
   </script>
 </body>
 </html>
-
-
-
 
 
 
