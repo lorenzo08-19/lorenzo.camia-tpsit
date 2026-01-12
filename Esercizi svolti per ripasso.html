@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Modulo Funzioni</title>
+</head>
+<body>
+
+<h2>Modulo con funzioni JavaScript</h2>
+
+<button onclick="esegui()">Esegui funzioni</button>
+
+<pre id="output"></pre>
+
+<script>
+    
+    function primoDispariSuccessivo(n) {
+        return (n % 2 === 0) ? n + 1 : n + 2;
+    }
+
+    
+    function tabellina(n) {
+        if (n < 1 || n > 10) {
+            return "Il numero deve essere compreso tra 1 e 10\n";
+        }
+
+        let risultato = "";
+        for (let i = 1; i <= 10; i++) {
+            risultato += `${n} x ${i} = ${n * i}\n`;
+        }
+        return risultato;
+    }
+
+    
+    function fibonacciMinoriDi(n) {
+        let a = 0, b = 1;
+        let risultato = "";
+
+        while (a < n) {
+            risultato += a + " ";
+            [a, b] = [b, a + b];
+        }
+        return risultato + "\n";
+    }
+
+    
+    function tabellineDaUnoADieci() {
+        let testo = "";
+        for (let n = 1; n <= 10; n++) {
+            testo += `Tabellina del ${n}: `;
+            for (let i = 1; i <= 10; i++) {
+                testo += (n * i) + " ";
+            }
+            testo += "\n";
+        }
+        return testo;
+    }
+
+    
+    function esegui() {
+        let output = "";
+
+        output += "Primo dispari successivo a 10: "
+               + primoDispariSuccessivo(10) + "\n\n";
+
+        output += "Tabellina del 5:\n";
+        output += tabellina(5) + "\n";
+
+        output += "Fibonacci minori di 50:\n";
+        output += fibonacciMinoriDi(50) + "\n";
+
+        output += "Tabelline da 1 a 10:\n";
+        output += tabellineDaUnoADieci();
+
+        document.getElementById("output").textContent = output;
+    }
+</script>
+
+</body>
+</html>
