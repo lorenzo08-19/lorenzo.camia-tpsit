@@ -1,76 +1,64 @@
-const express = require("express");
-const app = express();
-const PORT = 3000;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Frasi Casuali</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin-top: 50px;
+        }
 
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
 
-const fortuneCookies = [
-    "Un grande cambiamento è vicino.",
-    "La pazienza ti porterà lontano.",
-    "Un sorriso aprirà una porta importante.",
-    "Presto riceverai una buona notizia.",
-    "Segui il tuo istinto oggi.",
-    "La fortuna favorisce i coraggiosi.",
-    "Un vecchio amico tornerà nella tua vita.",
-    "Ogni giorno è una nuova opportunità.",
-    "La felicità è nelle piccole cose.",
-    "Il successo è il risultato della costanza.",
-    "Osa di più, temi di meno.",
-    "Una sorpresa ti renderà felice.",
-    "La tua creatività sarà premiata.",
-    "Un viaggio porterà nuove idee.",
-    "La gentilezza tornerà indietro.",
-    "Fidati delle tue decisioni.",
-    "Un sogno sta per avverarsi.",
-    "Il momento giusto è adesso.",
-    "Le difficoltà ti rendono più forte.",
-    "Una scelta saggia porterà serenità."
-];
+        #output {
+            margin-top: 30px;
+            font-size: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
 
+    <h1>🍪 Frasi Casuali</h1>
 
-const proverbi = [
-    "Chi dorme non piglia pesci.",
-    "Meglio tardi che mai.",
-    "Non è tutto oro quel che luccica.",
-    "Tra il dire e il fare c’è di mezzo il mare.",
-    "Chi va piano va sano e va lontano.",
-    "L’abito non fa il monaco.",
-    "A caval donato non si guarda in bocca.",
-    "Prevenire è meglio che curare.",
-    "Il mattino ha l’oro in bocca.",
-    "Chi semina vento raccoglie tempesta.",
-    "Ogni promessa è debito.",
-    "Sbagliando si impara.",
-    "Chi trova un amico trova un tesoro.",
-    "La calma è la virtù dei forti.",
-    "Meglio solo che male accompagnato.",
-    "Tutto il mondo è paese.",
-    "Chi fa da sé fa per tre.",
-    "Il tempo è denaro.",
-    "L’unione fa la forza.",
-    "Ride bene chi ride ultimo."
-];
+    <button onclick="getCookie()">Biscotto della fortuna</button>
+    <button onclick="getProverbio()">Proverbio</button>
 
+    <div id="output"></div>
 
-function fraseCasuale(array) {
-    return array[Math.floor(Math.random() * array.length)];
-}
+    <script>
+        function getCookie() {
+            fetch("/cookie")
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("output").innerText = data;
+                })
+                .catch(() => {
+                    document.getElementById("output").innerText =
+                        "Errore nel caricamento della frase.";
+                });
+        }
 
+        function getProverbio() {
+            fetch("/proverbi")
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("output").innerText = data;
+                })
+                .catch(() => {
+                    document.getElementById("output").innerText =
+                        "Errore nel caricamento del proverbio.";
+                });
+        }
+    </script>
 
-app.get("/cookie", (req, res) => {
-    res.send(fraseCasuale(fortuneCookies));
-});
-
-
-app.get("/proverbi", (req, res) => {
-    res.send(fraseCasuale(proverbi));
-});
-
-
-app.use((req, res) => {
-    res.status(404).send(" Indirizzo non valido. Usa /cookie o /proverbi.");
-});
-
-
-app.listen(PORT, () => {
-    console.log(`Server avviato su http://localhost:${PORT}`);
-});
+</body>
+</html>
