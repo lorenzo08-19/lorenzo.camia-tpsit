@@ -2,21 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Webserver Frasi Casuali</title>
+    <title>Frasi Casuali</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
+            background-color: #f4f4f4;
             text-align: center;
-            margin-top: 50px;
+            margin-top: 60px;
         }
+
         .box {
             background: white;
             padding: 30px;
             margin: auto;
-            width: 60%;
+            width: 70%;
             border-radius: 10px;
-            font-size: 20px;
+            font-size: 22px;
         }
     </style>
 </head>
@@ -77,20 +78,23 @@
         return lista[Math.floor(Math.random() * lista.length)];
     }
 
-    const path = window.location.pathname;
+    
+    const path = window.location.pathname.split("/").pop();
     const output = document.getElementById("output");
 
-    if (path === "/cookie") {
-        output.innerHTML = " " + casuale(cookie);
-    } 
-    else if (path === "/proverbi") {
-        output.innerHTML = " " + casuale(proverbi);
-    } 
+    if (path === "cookie") {
+        output.innerHTML = "🍪 " + casuale(cookie);
+    }
+    else if (path === "proverbi") {
+        output.innerHTML = "📜 " + casuale(proverbi);
+    }
     else {
-        output.innerHTML = "Indirizzo non valido.<br>Usa <b>/cookie</b> o <b>/proverbi</b>";
+        output.innerHTML = "❌ Indirizzo non valido.<br>Usa <b>/cookie</b> o <b>/proverbi</b>";
     }
 </script>
 
 </body>
 </html>
+
+
 
