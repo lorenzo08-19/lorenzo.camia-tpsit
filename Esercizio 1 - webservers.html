@@ -2,63 +2,95 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Frasi Casuali</title>
+    <title>Webserver Frasi Casuali</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #f2f2f2;
             text-align: center;
             margin-top: 50px;
         }
-
-        button {
-            padding: 10px 20px;
-            margin: 10px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        #output {
-            margin-top: 30px;
+        .box {
+            background: white;
+            padding: 30px;
+            margin: auto;
+            width: 60%;
+            border-radius: 10px;
             font-size: 20px;
-            color: #333;
         }
     </style>
 </head>
 <body>
 
-    <h1>🍪 Frasi Casuali</h1>
+<div class="box" id="output"></div>
 
-    <button onclick="getCookie()">Biscotto della fortuna</button>
-    <button onclick="getProverbio()">Proverbio</button>
+<script>
+   
+    const cookie = [
+        "Un grande cambiamento è vicino.",
+        "La fortuna favorisce i coraggiosi.",
+        "Segui il tuo istinto.",
+        "Una sorpresa ti renderà felice.",
+        "Il momento giusto è adesso.",
+        "Un sorriso aprirà nuove porte.",
+        "Presto riceverai buone notizie.",
+        "La pazienza sarà ricompensata.",
+        "Un viaggio porterà nuove idee.",
+        "La felicità è nelle piccole cose.",
+        "Fidati delle tue decisioni.",
+        "Un sogno sta per avverarsi.",
+        "Osa di più.",
+        "La tua creatività sarà premiata.",
+        "Una scelta saggia porterà serenità.",
+        "La fortuna ti accompagna oggi.",
+        "Ogni giorno è una nuova opportunità.",
+        "Un incontro speciale è vicino.",
+        "La gentilezza ritorna sempre.",
+        "Il successo arriva con la costanza."
+    ];
 
-    <div id="output"></div>
+   
+    const proverbi = [
+        "Chi dorme non piglia pesci.",
+        "Meglio tardi che mai.",
+        "Non è tutto oro quel che luccica.",
+        "Tra il dire e il fare c’è di mezzo il mare.",
+        "Chi va piano va sano e va lontano.",
+        "L’abito non fa il monaco.",
+        "A caval donato non si guarda in bocca.",
+        "Prevenire è meglio che curare.",
+        "Il mattino ha l’oro in bocca.",
+        "Chi semina vento raccoglie tempesta.",
+        "Ogni promessa è debito.",
+        "Sbagliando si impara.",
+        "Chi trova un amico trova un tesoro.",
+        "L’unione fa la forza.",
+        "Meglio soli che male accompagnati.",
+        "Chi fa da sé fa per tre.",
+        "Il tempo è denaro.",
+        "Tutto il mondo è paese.",
+        "Ride bene chi ride ultimo.",
+        "La calma è la virtù dei forti."
+    ];
 
-    <script>
-        function getCookie() {
-            fetch("/cookie")
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById("output").innerText = data;
-                })
-                .catch(() => {
-                    document.getElementById("output").innerText =
-                        "Errore nel caricamento della frase.";
-                });
-        }
+    function casuale(lista) {
+        return lista[Math.floor(Math.random() * lista.length)];
+    }
 
-        function getProverbio() {
-            fetch("/proverbi")
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById("output").innerText = data;
-                })
-                .catch(() => {
-                    document.getElementById("output").innerText =
-                        "Errore nel caricamento del proverbio.";
-                });
-        }
-    </script>
+    const path = window.location.pathname;
+    const output = document.getElementById("output");
+
+    if (path === "/cookie") {
+        output.innerHTML = " " + casuale(cookie);
+    } 
+    else if (path === "/proverbi") {
+        output.innerHTML = " " + casuale(proverbi);
+    } 
+    else {
+        output.innerHTML = "Indirizzo non valido.<br>Usa <b>/cookie</b> o <b>/proverbi</b>";
+    }
+</script>
 
 </body>
 </html>
+
