@@ -1,14 +1,12 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Frasi casuali</title>
+  <title>Web Server Simulato</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
+      background-color: #f2f2f2;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -17,14 +15,11 @@
     }
     .box {
       background: white;
-      padding: 30px;
+      padding: 25px;
       border-radius: 10px;
       max-width: 500px;
       text-align: center;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    h1 {
-      margin-bottom: 20px;
     }
   </style>
 </head>
@@ -32,10 +27,12 @@
 
 <div class="box">
   <h1 id="title"></h1>
-  <p id="content"></p>
+  <p id="text"></p>
 </div>
 
 <script>
+  const path = window.location.pathname;
+
   const cookies = [
     "Un viaggio inatteso porterà nuove opportunità.",
     "La pazienza è la chiave del successo.",
@@ -82,27 +79,45 @@
     "Non rimandare a domani ciò che puoi fare oggi."
   ];
 
-  const path = window.location.pathname;
   const title = document.getElementById("title");
-  const content = document.getElementById("content");
+  const text = document.getElementById("text");
 
-  function randomFrom(array) {
-    return array[Math.floor(Math.random() * array.length)];
+  function random(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
   }
 
-  if (path.includes("cookie")) {
+  if (path.endsWith("/cookie")) {
     title.textContent = "🥠 Biscotto della fortuna";
-    content.textContent = randomFrom(cookies);
-  } else if (path.includes("proverbi")) {
+    text.textContent = random(cookies);
+  } else if (path.endsWith("/proverbi")) {
     title.textContent = " Proverbio";
-    content.textContent = randomFrom(proverbi);
+    text.textContent = random(proverbi);
   } else {
-    title.textContent = " Errore 404";
-    content.textContent = "Indirizzo non valido. Usa /cookie o /proverbi.";
+    title.textContent = " Errore";
+    text.textContent = "Indirizzo non valido";
   }
 </script>
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
