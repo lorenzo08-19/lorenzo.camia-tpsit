@@ -1,100 +1,108 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Frasi Casuali</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            text-align: center;
-            margin-top: 60px;
-        }
-
-        .box {
-            background: white;
-            padding: 30px;
-            margin: auto;
-            width: 70%;
-            border-radius: 10px;
-            font-size: 22px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Frasi casuali</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .box {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+  </style>
 </head>
 <body>
 
-<div class="box" id="output"></div>
+<div class="box">
+  <h1 id="title"></h1>
+  <p id="content"></p>
+</div>
 
 <script>
-   
-    const cookie = [
-        "Un grande cambiamento è vicino.",
-        "La fortuna favorisce i coraggiosi.",
-        "Segui il tuo istinto.",
-        "Una sorpresa ti renderà felice.",
-        "Il momento giusto è adesso.",
-        "Un sorriso aprirà nuove porte.",
-        "Presto riceverai buone notizie.",
-        "La pazienza sarà ricompensata.",
-        "Un viaggio porterà nuove idee.",
-        "La felicità è nelle piccole cose.",
-        "Fidati delle tue decisioni.",
-        "Un sogno sta per avverarsi.",
-        "Osa di più.",
-        "La tua creatività sarà premiata.",
-        "Una scelta saggia porterà serenità.",
-        "La fortuna ti accompagna oggi.",
-        "Ogni giorno è una nuova opportunità.",
-        "Un incontro speciale è vicino.",
-        "La gentilezza ritorna sempre.",
-        "Il successo arriva con la costanza."
-    ];
+  const cookies = [
+    "Un viaggio inatteso porterà nuove opportunità.",
+    "La pazienza è la chiave del successo.",
+    "Un sorriso ti aprirà molte porte.",
+    "La fortuna favorisce gli audaci.",
+    "Ascolta il tuo cuore oggi.",
+    "Una sorpresa piacevole è in arrivo.",
+    "Il cambiamento porterà cose buone.",
+    "Un vecchio amico ti penserà presto.",
+    "La perseveranza sarà ricompensata.",
+    "Una decisione importante porterà serenità.",
+    "Il successo è più vicino di quanto pensi.",
+    "Nuove idee illumineranno il tuo cammino.",
+    "La gentilezza tornerà a te.",
+    "Un ostacolo diventerà un’opportunità.",
+    "Il tuo impegno non passerà inosservato.",
+    "La saggezza cresce con l’esperienza.",
+    "Un piccolo rischio porterà grandi benefici.",
+    "Oggi è un buon giorno per osare.",
+    "La calma porta chiarezza.",
+    "Un incontro casuale sarà significativo."
+  ];
 
-   
-    const proverbi = [
-        "Chi dorme non piglia pesci.",
-        "Meglio tardi che mai.",
-        "Non è tutto oro quel che luccica.",
-        "Tra il dire e il fare c’è di mezzo il mare.",
-        "Chi va piano va sano e va lontano.",
-        "L’abito non fa il monaco.",
-        "A caval donato non si guarda in bocca.",
-        "Prevenire è meglio che curare.",
-        "Il mattino ha l’oro in bocca.",
-        "Chi semina vento raccoglie tempesta.",
-        "Ogni promessa è debito.",
-        "Sbagliando si impara.",
-        "Chi trova un amico trova un tesoro.",
-        "L’unione fa la forza.",
-        "Meglio soli che male accompagnati.",
-        "Chi fa da sé fa per tre.",
-        "Il tempo è denaro.",
-        "Tutto il mondo è paese.",
-        "Ride bene chi ride ultimo.",
-        "La calma è la virtù dei forti."
-    ];
+  const proverbi = [
+    "Chi va piano va sano e va lontano.",
+    "Meglio tardi che mai.",
+    "Non è tutto oro quel che luccica.",
+    "Il mattino ha l’oro in bocca.",
+    "Chi semina vento raccoglie tempesta.",
+    "A buon intenditor poche parole.",
+    "Tra il dire e il fare c’è di mezzo il mare.",
+    "Chi dorme non piglia pesci.",
+    "L’unione fa la forza.",
+    "Chi troppo vuole nulla stringe.",
+    "Ogni promessa è debito.",
+    "Il lupo perde il pelo ma non il vizio.",
+    "Prevenire è meglio che curare.",
+    "Chi cerca trova.",
+    "Meglio soli che male accompagnati.",
+    "Chi fa da sé fa per tre.",
+    "Sbagliando si impara.",
+    "Tutto il mondo è paese.",
+    "La fretta è cattiva consigliera.",
+    "Non rimandare a domani ciò che puoi fare oggi."
+  ];
 
-    function casuale(lista) {
-        return lista[Math.floor(Math.random() * lista.length)];
-    }
+  const path = window.location.pathname;
+  const title = document.getElementById("title");
+  const content = document.getElementById("content");
 
-    
-    const path = window.location.pathname.split("/").pop();
-    const output = document.getElementById("output");
+  function randomFrom(array) {
+    return array[Math.floor(Math.random() * array.length)];
+  }
 
-    if (path === "cookie") {
-        output.innerHTML = "🍪 " + casuale(cookie);
-    }
-    else if (path === "proverbi") {
-        output.innerHTML = "📜 " + casuale(proverbi);
-    }
-    else {
-        output.innerHTML = "❌ Indirizzo non valido.<br>Usa <b>/cookie</b> o <b>/proverbi</b>";
-    }
+  if (path.includes("cookie")) {
+    title.textContent = "🥠 Biscotto della fortuna";
+    content.textContent = randomFrom(cookies);
+  } else if (path.includes("proverbi")) {
+    title.textContent = " Proverbio";
+    content.textContent = randomFrom(proverbi);
+  } else {
+    title.textContent = " Errore 404";
+    content.textContent = "Indirizzo non valido. Usa /cookie o /proverbi.";
+  }
 </script>
 
 </body>
 </html>
-
 
 
