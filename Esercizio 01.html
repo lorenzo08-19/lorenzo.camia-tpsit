@@ -34,7 +34,7 @@
             height: 80px;
             background-color: #ff4d4d;
             border-radius: 6px;
-            transition: left 0.016s linear; /* Rende il movimento fluido */
+            transition: left 0.016s linear; 
         }
 
         #status {
@@ -67,7 +67,7 @@
             const data = JSON.parse(event.data);
             
             if (data.type === 'position') {
-                // Aggiorna la posizione del riquadro rosso
+                
                 box.style.left = data.x + '%';
             }
         };
