@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="it" class="h-full bg-slate-900 text-slate-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Dual Color Clicker</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @keyframes shake {
+            0%, 100% { transform: translate(0, 0); }
+            20%, 60% { transform: translate(-8px, 0); }
+            40%, 80% { transform: translate(8px, 0); }
+        }
+        .animate-shake {
+            animation: shake 0.4s ease-in-out;
+        }
+        /* Custom scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col font-sans overflow-hidden select-none">
+
+    <!-- Top Navigation Bar / Header -->
+    <header class="bg-slate-800 border-b border-slate-700 p-4 shadow-lg z-10 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center space-x-3">
+            <div class="p-2 bg-indigo-600 rounded-lg text-white">
+                <i data-lucide="mouse-pointer-click" class="w-6 h-6"></i>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold bg-gradient-to-r from-red-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
+                    Color Clicker Permission System
+                </h1>
+                <p class="text-xs text-slate-400">Pari = Solo Blu | Dispari = Solo Rosso</p>
+            </div>
+        </div>
+
+        <!-- Client Info & Controls -->
+        <div class="flex flex-wrap items-center gap-3">
+            <!-- Current Client Status Badge -->
+            <div id="clientBadge" class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-700 border border-slate-600 transition-all">
+                <i data-lucide="user" class="w-4 h-4 text-slate-400"></i>
+                <span class="text-sm font-medium">Client ID: <strong id="clientIdDisplay" class="text-indigo-400">--</strong></span>
+                <span id="clientTypeBadge" class="text-xs px-2 py-0.5 rounded-full font-semibold uppercase tracking-wider bg-slate-600">
+                    --
+                </span>
+            </div>
+
+            <!-- Client ID Simulator Buttons -->
+            <div class="flex items-center gap-1 bg-slate-900/50 p-1 rounded-lg border border-slate-700">
+                <button onclick="changeClientId(-1)" class="p-1.5 hover:bg-slate-700 rounded text-slate-300 transition" title="ID Precedente">
+                    <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                </button>
+                <button onclick="randomizeClientId()" class="px-2.5 py-1 text-xs bg-indigo-600 hover:bg-indigo-500 text-white rounded font-medium flex items-center gap-1 transition">
+                    <i data-lucide="shuffle" class="w-3.5 h-3.5"></i> ID Casuale
+                </button>
+                <button onclick="changeClientId(1)" class="p-1.5 hover:bg-slate-700 rounded text-slate-300 transition" title="ID Successivo">
+                    <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <!-- Reposition Elements Button -->
+            <button onclick="repositionDivs()" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-sm rounded-lg font-medium flex items-center gap-1.5 shadow-md transition active:scale-95">
+                <i data-lucide="move" class="w-4 h-4"></i> Riposiziona Div
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Workspace Container -->
+    <main id="workspace" class="relative flex-1 bg-slate-950 overflow-hidden">
+        <!-- Background Grid Pattern -->
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#1e293b15_1px,transparent_1px),linear-gradient(to_bottom,#1e293b15_1px,transparent_1px)] bg-[size:4rem_4rem]"></div>
+
+        <!-- Notification Toast (For denied actions) -->
+        <div id="toast" class="absolute top-4 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-300 opacity-0 pointer-events-none translate-y-[-20px]">
+            <div class="bg-rose-900/90 border border-rose-500 text-rose-100 px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-2 backdrop-blur-md">
+                <i data-lucide="alert-circle" class="w-5 h-5 text-rose-400 shrink-0"></i>
+                <span id="toastMessage" class="text-sm font-medium">Azione non consentita!</span>
+            </div>
+        </div>
+
+        <!-- RED DIV (ODD CLIENTS ONLY) -->
+        <div id="redBox" 
+             onclick="handleBoxClick('red')" 
+             class="absolute w-44 h-44 md:w-56 md:h-56 rounded-2xl bg-gradient-to-br from-red-500 to-rose-700 shadow-xl shadow-red-950/50 cursor-pointer border-2 border-red-400/30 flex flex-col items-center justify-between p-4 transition-transform duration-200 active:scale-95 hover:shadow-2xl hover:shadow-red-600/20 group">
+            <div class="flex items-center justify-between w-full">
+                <span class="text-xs font-bold uppercase tracking-wider text-red-200 bg-red-900/40 px-2 py-1 rounded-md border border-red-400/20">
+                    Solo Dispari
+                </span>
+                <i data-lucide="flame" class="w-5 h-5 text-red-200 opacity-80 group-hover:scale-110 transition-transform"></i>
+            </div>
+            
+            <div class="text-center">
+                <div class="text-xs text-red-200/70 font-medium uppercase tracking-widest">Contatore</div>
+                <div id="redCounter" class="text-4xl md:text-5xl font-black text-white tracking-tight drop-shadow">0</div>
+            </div>
+
+            <div class="text-xs text-red-100/80 bg-red-950/30 w-full text-center py-1 rounded-lg backdrop-blur-sm">
+                Clicca per incrementare
+            </div>
+        </div>
+
+        <!-- BLUE DIV (EVEN CLIENTS ONLY) -->
+        <div id="blueBox" 
+             onclick="handleBoxClick('blue')" 
+             class="absolute w-44 h-44 md:w-56 md:h-56 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-700 shadow-xl shadow-blue-950/50 cursor-pointer border-2 border-blue-400/30 flex flex-col items-center justify-between p-4 transition-transform duration-200 active:scale-95 hover:shadow-2xl hover:shadow-blue-600/20 group">
+            <div class="flex items-center justify-between w-full">
+                <span class="text-xs font-bold uppercase tracking-wider text-blue-200 bg-blue-900/40 px-2 py-1 rounded-md border border-blue-400/20">
+                    Solo Pari
+                </span>
+                <i data-lucide="zap" class="w-5 h-5 text-blue-200 opacity-80 group-hover:scale-110 transition-transform"></i>
+            </div>
+            
+            <div class="text-center">
+                <div class="text-xs text-blue-200/70 font-medium uppercase tracking-widest">Contatore</div>
+                <div id="blueCounter" class="text-4xl md:text-5xl font-black text-white tracking-tight drop-shadow">0</div>
+            </div>
+
+            <div class="text-xs text-blue-100/80 bg-blue-950/30 w-full text-center py-1 rounded-lg backdrop-blur-sm">
+                Clicca per incrementare
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Stats / Legend -->
+    <footer class="bg-slate-800 border-t border-slate-700 p-3 text-xs text-slate-400 flex flex-wrap justify-between items-center gap-2">
+        <div class="flex items-center gap-4">
+            <span class="flex items-center gap-1.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span> Box Rosso: Client Dispari
+            </span>
+            <span class="flex items-center gap-1.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> Box Blu: Client Pari
+            </span>
+        </div>
+        <div class="text-slate-500">
+            Regola attiva: <span id="activeRuleText" class="text-slate-300 font-medium">--</span>
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // State Management
+        let currentClientId = Math.floor(Math.random() * 100) + 1; // Random initial ID (1-100)
+        let redCount = 0;
+        let blueCount = 0;
+        let toastTimeout = null;
+
+        // DOM Elements
+        const workspace = document.getElementById('workspace');
+        const redBox = document.getElementById('redBox');
+        const blueBox = document.getElementById('blueBox');
+        const redCounterEl = document.getElementById('redCounter');
+        const blueCounterEl = document.getElementById('blueCounter');
+        const clientIdDisplay = document.getElementById('clientIdDisplay');
+        const clientTypeBadge = document.getElementById('clientTypeBadge');
+        const activeRuleText = document.getElementById('activeRuleText');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+
+        // Initialize application on window load
+        window.onload = function() {
+            lucide.createIcons();
+            updateClientUI();
+            repositionDivs();
+
+            // Re-align divs if window resizes to prevent them from going out of bounds
+            window.addEventListener('resize', debounce(() => {
+                repositionDivs();
+            }, 250));
+        };
+
+        // Utility: Check if current Client ID is even
+        function isEven(id) {
+            return id % 2 === 0;
+        }
+
+        // Update UI elements based on current Client ID
+        function updateClientUI() {
+            clientIdDisplay.textContent = currentClientId;
+            const even = isEven(currentClientId);
+
+            if (even) {
+                clientTypeBadge.textContent = "PARI";
+                clientTypeBadge.className = "text-xs px-2 py-0.5 rounded-full font-semibold uppercase tracking-wider bg-blue-500/20 text-blue-300 border border-blue-500/30";
+                activeRuleText.textContent = "Puoi incrementare solo il BOX BLU";
+            } else {
+                clientTypeBadge.textContent = "DISPARI";
+                clientTypeBadge.className = "text-xs px-2 py-0.5 rounded-full font-semibold uppercase tracking-wider bg-red-500/20 text-red-300 border border-red-500/30";
+                activeRuleText.textContent = "Puoi incrementare solo il BOX ROSSO";
+            }
+        }
+
+        // Change Client ID by Delta (-1 or +1)
+        function changeClientId(delta) {
+            currentClientId += delta;
+            if (currentClientId < 1) currentClientId = 1; // Keep positive
+            updateClientUI();
+        }
+
+        // Assign a Random Client ID
+        function randomizeClientId() {
+            currentClientId = Math.floor(Math.random() * 100) + 1;
+            updateClientUI();
+        }
+
+        // Handle Clicking on Color Boxes
+        function handleBoxClick(color) {
+            const even = isEven(currentClientId);
+
+            if (color === 'red') {
+                if (!even) {
+                    // Allowed: Odd client clicking Red
+                    redCount++;
+                    redCounterEl.textContent = redCount;
+                    animateBoxClick(redBox);
+                } else {
+                    // Denied: Even client clicking Red
+                    triggerAccessDenied(redBox, "Accesso Negato! I Client PARI (ID: " + currentClientId + ") possono cliccare solo il box BLU.");
+                }
+            } else if (color === 'blue') {
+                if (even) {
+                    // Allowed: Even client clicking Blue
+                    blueCount++;
+                    blueCounterEl.textContent = blueCount;
+                    animateBoxClick(blueBox);
+                } else {
+                    // Denied: Odd client clicking Blue
+                    triggerAccessDenied(blueBox, "Accesso Negato! I Client DISPARI (ID: " + currentClientId + ") possono cliccare solo il box ROSSO.");
+                }
+            }
+        }
+
+        // Visual Feedback for Allowed Click
+        function animateBoxClick(boxElement) {
+            boxElement.classList.add('scale-90');
+            setTimeout(() => {
+                boxElement.classList.remove('scale-90');
+            }, 100);
+        }
+
+        // Visual & Toast Feedback for Denied Click
+        function triggerAccessDenied(boxElement, message) {
+            // Add shake animation
+            boxElement.classList.remove('animate-shake');
+            // Force reflow
+            void boxElement.offsetWidth;
+            boxElement.classList.add('animate-shake');
+
+            // Show Toast Message
+            showToast(message);
+        }
+
+        // Display Notification Toast
+        function showToast(message) {
+            toastMessage.textContent = message;
+            toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-[-20px]');
+            toast.classList.add('opacity-100', 'translate-y-0');
+
+            if (toastTimeout) clearTimeout(toastTimeout);
+
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-[-20px]');
+            }, 3000);
+        }
+
+        // Randomly Reposition both Red and Blue Divs within workspace limits
+        function repositionDivs() {
+            const containerWidth = workspace.clientWidth;
+            const containerHeight = workspace.clientHeight;
+            
+            // Get element size (assuming square dimensions)
+            const boxWidth = redBox.clientWidth || 200;
+            const boxHeight = redBox.clientHeight || 200;
+
+            const padding = 20; // Safe margin from walls and header
+
+            const maxX = containerWidth - boxWidth - padding;
+            const maxY = containerHeight - boxHeight - padding;
+
+            if (maxX <= 0 || maxY <= 0) return;
+
+            // Generate non-overlapping positions
+            let posRed = getRandomPosition(maxX, maxY, padding);
+            let posBlue = getRandomPosition(maxX, maxY, padding);
+
+            // Simple collision check to avoid placing them exactly on top of each other
+            let attempts = 0;
+            while (isColliding(posRed, posBlue, boxWidth, boxHeight) && attempts < 50) {
+                posBlue = getRandomPosition(maxX, maxY, padding);
+                attempts++;
+            }
+
+            // Apply positions
+            redBox.style.left = `${posRed.x}px`;
+            redBox.style.top = `${posRed.y}px`;
+
+            blueBox.style.left = `${posBlue.x}px`;
+            blueBox.style.top = `${posBlue.y}px`;
+        }
+
+        // Helper: Get Random Coordinate
+        function getRandomPosition(maxX, maxY, padding) {
+            const x = Math.floor(Math.random() * (maxX - padding)) + padding;
+            const y = Math.floor(Math.random() * (maxY - padding)) + padding;
+            return { x, y };
+        }
+
+        // Helper: Check if two box rectangles overlap
+        function isColliding(pos1, pos2, width, height) {
+            return !(
+                pos1.x + width + 20 < pos2.x ||
+                pos1.x > pos2.x + width + 20 ||
+                pos1.y + height + 20 < pos2.y ||
+                pos1.y > pos2.y + height + 20
+            );
+        }
+
+        // Debounce helper for window resize events
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+
+              };
+        }
+    </script>
+</body>
+</html>
